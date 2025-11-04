@@ -148,7 +148,7 @@ export const useBlog = (slug?: string) => {
     },
   });
 
-  const { mutateAsync } = useMutation({
+  const updatePostMutation = useMutation({
     mutationFn: ({ formdata, slug }: { formdata: FormData; slug: string | undefined }) =>
       blogApi.updatePost(formdata, slug),
     onSuccess: (data) => {
@@ -171,9 +171,10 @@ export const useBlog = (slug?: string) => {
     currentUserPost,
     createPost: createBlogMutation.mutateAsync,
     deletePost: deletePostMutation.mutateAsync,
-    isDeleting: deletePostMutation.isPending,
-    mutateAsync,
+    updatePost: updatePostMutation.mutateAsync,
 
+    isUpdatingPost: updatePostMutation.isPending,
     isCreating: createBlogMutation.isPending,
+    isDeleting: deletePostMutation.isPending,
   };
 };

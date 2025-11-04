@@ -9,16 +9,18 @@ import { useImagePreview } from '../features/ui/useComponent';
 import { useAuth } from '../features/auth/useAuth';
 import { LoadingOutlined } from '@ant-design/icons';
 import type { UpdatePost } from '../types/common';
+import { useEffect } from 'react';
 
 export default function EditPost() {
   const navigate = useNavigate();
   const { slug } = useParams<{ slug: string }>();
-  const { mutateAsync, singlePost } = useBlog(slug);
+  const { updatePost, isUpdatingPost, singlePost } = useBlog(slug);
   const { updateUserLoading } = useAuth();
 
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm<UpdatePost>({
     resolver: zodResolver(updateSchema),
@@ -32,6 +34,15 @@ export default function EditPost() {
     initialImage: singlePost?.images?.[0]?.url,
   });
 
+  useEffect(() => {
+    if (singlePost) {
+      reset({
+        title: singlePost.title,
+        content: singlePost.content,
+      });
+    }
+  }, [singlePost, reset]);
+
   const onSubmit: SubmitHandler<UpdatePost> = async (data) => {
     try {
       const formData = new FormData();
@@ -40,7 +51,7 @@ export default function EditPost() {
       if (data.images && data.images[0]) {
         formData.append('image', data.images[0]);
       }
-      const response = await mutateAsync({ formdata: formData, slug });
+      const response = await updatePost({ formdata: formData, slug });
       console.log(response);
       navigate(`/post/${response.updatedPost.slug}`);
     } catch (error) {
@@ -126,73 +137,11 @@ export default function EditPost() {
               type="submit"
               className="border rounded-2xl text-white bg-black w-23 h-8 mr-3 font-semibold cursor-pointer"
             >
-              {updateUserLoading ? <LoadingOutlined className="mb-1" /> : 'Publish'}
+              {isUpdatingPost ? <LoadingOutlined className="mb-1" /> : 'Publish'}
             </button>
           }
         />
       </form>
     </div>
-
-    // <div className="min-h-screen flex justify-center sm:overflow-hidden">
-    //   <form onSubmit={handleSubmit(onSubmit)} className="lg:mt-20 sm:mt-24 lg:ml-0 ">
-    //     <div className="relative">
-    //       <div>
-    //         {errors.title && <span className="text-xs text-red-500">{errors.title.message}</span>}
-    //       </div>
-    //
-    //       <textarea
-    //         id="about"
-    //         {...register('title')}
-    //         className="resize-none md:w-[400px] lg:w-[600px] pt-10 sm:text-2xl lg:text-2xl font-lora font-semibold  w-full text-gray-900 rounded-lg border-none  overflow-hidden placeholder-gray-400 focus:outline-none"
-    //         placeholder="Title"
-    //         onInput={(e) => {
-    //           e.currentTarget.style.height = 'auto';
-    //           e.currentTarget.style.height = `${e.currentTarget.scrollHeight}px`;
-    //         }}
-    //       />
-    //       <label htmlFor="upload_image" className="sm:hidden md:block lg:block">
-    //         <ImageIcon className=" size-8 border rounded-full w-10 py-1 absolute top-16 -right-12" />
-    //       </label>
-    //     </div>
-    //
-    //     <div>
-    //       <div>
-    //         {errors.content && (
-    //           <span className="text-xs text-red-500">{errors.content.message}</span>
-    //         )}
-    //       </div>
-    //
-    //       <textarea
-    //         id="about"
-    //         {...register('content')}
-    //         className="resize-none pt-3 sm:text-lg lg:text-xl  w-full text-gray-900 rounded-lg border-none  overflow-hidden placeholder-gray-400 focus:outline-none"
-    //         placeholder="Tell your story..."
-    //         onInput={(e) => {
-    //           e.currentTarget.style.height = 'auto';
-    //           e.currentTarget.style.height = `${e.currentTarget.scrollHeight}px`;
-    //         }}
-    //       />
-    //     </div>
-    //
-    //     <div className="sm:relative lg:hidden md:hidden ">
-    //       <label htmlFor="upload_image">
-    //         <ImageIcon className="size-8 border rounded-full w-10 py-1 absolute right-1 " />
-    //       </label>
-    //       <button type="submit" className="bg-black text-white font-bold rounded-2xl px-2 py-1">
-    //         Publish
-    //       </button>
-    //     </div>
-    //
-    //     <input type="file" id="upload_image" accept="image/*" hidden {...register('images')} />
-    //
-    //     <Navbar
-    //       button={
-    //         <button className="border rounded-2xl text-white bg-black px-2 py-1 mr-3 font-semibold">
-    //           Publish
-    //         </button>
-    //       }
-    //     />
-    //   </form>
-    // </div>
   );
 }
