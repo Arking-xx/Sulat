@@ -6,22 +6,25 @@ import Navbar from '../features/home/Navbar';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { updateSchema } from '../validation/formSchema';
 import { useImagePreview } from '../features/ui/useComponent';
-import { useAuth } from '../features/auth/useAuth';
 import { LoadingOutlined } from '@ant-design/icons';
 import type { UpdatePost } from '../types/common';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 
 export default function EditPost() {
   const navigate = useNavigate();
   const { slug } = useParams<{ slug: string }>();
   const { updatePost, isUpdatingPost, singlePost } = useBlog(slug);
-  const { updateUserLoading } = useAuth();
+
+  const { imagePreview, handleChange, handleRemove } = useImagePreview({
+    initialImage: singlePost?.images?.[0]?.url,
+  });
 
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
+    watch,
   } = useForm<UpdatePost>({
     resolver: zodResolver(updateSchema),
     defaultValues: {
@@ -30,9 +33,14 @@ export default function EditPost() {
     },
   });
 
-  const { imagePreview, handleChange, handleRemove } = useImagePreview({
-    initialImage: singlePost?.images?.[0]?.url,
-  });
+  const contentValue = watch('content');
+  useEffect(() => {
+    const textArea = document.querySelector<HTMLTextAreaElement>('textarea[name="content"]');
+    if (textArea) {
+      textArea.style.height = 'auto';
+      textArea.style.height = `${textArea.scrollHeight}px`;
+    }
+  }, [contentValue]);
 
   useEffect(() => {
     if (singlePost) {
@@ -63,12 +71,12 @@ export default function EditPost() {
     <div className="mt-25 flex justify-center mx-auto  ">
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="flex ">
-          <div className="flex flex-col gap-2  px-5 sm:w-80 md:min-w-lg ">
+          <div className="flex flex-col gap-1  px-5 sm:w-80 md:min-w-2xl ">
             <div>
               {errors.title && <span className="text-xs text-red-500">{errors.title.message}</span>}
             </div>
             <textarea
-              className="resize-none text-2xl font-lora focus:outline-none overflow-hidden "
+              className="resize-none text-lg font-lora focus:outline-none overflow-hidden border  "
               placeholder="Title"
               onInput={(e) => {
                 e.currentTarget.style.height = 'auto';
@@ -82,13 +90,13 @@ export default function EditPost() {
               )}
             </div>
             <textarea
-              className="resize-none focus:outline-none sm:text-xl mt-2 overflow-hidden"
+              className="resize-none focus:outline-none sm:text-xl  overflow-hidden"
               placeholder="Tell your story..."
+              {...register('content')}
               onInput={(e) => {
                 e.currentTarget.style.height = 'auto';
                 e.currentTarget.style.height = `${e.currentTarget.scrollHeight}px`;
               }}
-              {...register('content')}
             />
             <div className="relative">
               {imagePreview && (

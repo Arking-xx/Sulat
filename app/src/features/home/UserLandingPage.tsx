@@ -98,7 +98,9 @@ export default function UserLandingPage() {
             <Link to={`/post/${post.slug}`} className="cursor-pointer">
               <section className="">
                 <h3 className="md:text-xl font-roboto font-bold pt-2">{post?.title}</h3>
-                <h3>{post?.content}</h3>
+                <div className="break-all">
+                  <h3>{limitChar(post?.content, paragraphLimit)}</h3>
+                </div>
                 <div className="pr-8">
                   {post.images?.[0]?.url && (
                     <img

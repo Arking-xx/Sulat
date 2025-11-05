@@ -56,9 +56,15 @@ type useImagePreviewOption = {
 
 // option empty object, not causing an error if there's args been pass
 export const useImagePreview = (option: useImagePreviewOption = {}) => {
-  const { initialImage, isBlogPost } = option;
+  const { initialImage } = option;
 
   const [imagePreview, setImagePreview] = useState<string | undefined>(initialImage || undefined);
+
+  useEffect(() => {
+    if (initialImage) {
+      setImagePreview(initialImage);
+    }
+  }, [initialImage]);
 
   useEffect(() => {
     return () => {

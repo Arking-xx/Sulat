@@ -44,10 +44,21 @@ export const postBaseSchema = {
   content: z
     .string()
     .min(1, { error: 'required field' })
-    .max(200, { error: 'Maximum is 200 characters' }),
+    .max(1500, { error: 'Maximum is 1500 characters' }),
   images: z
     .any()
     .optional()
+    // .refine(
+    //   (files) => {
+    //     if (!files) return true;
+    //
+    //     if (files instanceof FileList) return true;
+    //
+    //     if (Array.isArray(files)) return files.every((f) => typeof f === 'string' || f.url);
+    //     return false;
+    //   },
+    //   { error: 'Invalid image data format' }
+    // )
     .refine((files) => !files || !files[0] || acceptedImageTypes.includes(files[0]?.type), {
       error: 'Only .jpg, .jpeg, .png is supported',
     }),

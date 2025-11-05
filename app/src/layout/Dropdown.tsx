@@ -8,7 +8,7 @@ type DropdownProps = {
   slug?: string | null;
 };
 
-const Dropdown: FC = ({ onDelete, slug }: DropdownProps) => {
+const Dropdown: FC<DropdownProps> = ({ onDelete, slug }: DropdownProps) => {
   return (
     <div className="relative">
       <div className="absolute sm:-right-1 lg:right-4 -bottom-18">

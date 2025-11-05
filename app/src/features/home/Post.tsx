@@ -34,15 +34,9 @@ export default function Post() {
             </div>
             <div className="border border-gray-200  p-10 rounded-2xl">
               <div className="">
-                <div className="  ">
-                  <h2 className="font-extrabold font-roboto text-lg lg:text-2xl">
-                    {singlePost?.title}
-                  </h2>
-                  <div className="text-gray-400 mt-2 sm:relative">
-                    <h3>{singlePost?.content}</h3>
-                  </div>
-                </div>
-
+                <h2 className="font-extrabold font-roboto text-lg lg:text-2xl">
+                  {singlePost?.title}
+                </h2>
                 {singlePost?.images?.[0]?.url && (
                   <div>
                     <img
@@ -52,6 +46,12 @@ export default function Post() {
                     />
                   </div>
                 )}
+
+                <div className="  ">
+                  <div className="text-gray-400 mt-2 sm:relative break-all">
+                    <h3>{singlePost?.content}</h3>
+                  </div>
+                </div>
               </div>
             </div>
 

@@ -125,7 +125,7 @@ export const useBlog = (slug?: string) => {
     gcTime: 10 * 60 * 1000,
     // refetchOnWindowFocus: true,
     // refetchOnMount: true,
-    refetchInterval: 3000,
+    // refetchInterval: 3000,
     initialData: () => {
       const cachedData = queryClient.getQueryData<PostsResponse>(['posts']);
       // if (!cachedData?.posts) return undefined;

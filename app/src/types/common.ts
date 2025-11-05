@@ -46,6 +46,7 @@ export type BlogPost = {
   images: Image[];
 };
 
+export type SinglePost = Pick<BlogPost, 'title' | 'content' | 'images'>;
 export type CreateBlog = Pick<BlogPost, 'title' | 'content'> & {
   slug?: string;
   images?: FileList;
