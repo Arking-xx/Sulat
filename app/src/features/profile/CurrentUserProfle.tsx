@@ -4,6 +4,7 @@ import { useBlog } from '../../hooks/blogpost/useBlog.tsx';
 import { useLikePost } from '../../hooks/likepost/useLikePost.tsx';
 import { EditOutlined } from '@ant-design/icons';
 import { HeartIcon } from '@heroicons/react/24/outline';
+import { Pencil1Icon } from '@radix-ui/react-icons';
 import {
   capitilizeFirstCharacter,
   limitChar,
@@ -36,13 +37,23 @@ export default function CurrentUserProfile() {
         </div>
         <div className="lg:col-span-7 px-10 flex items-center justify-center lg:justify-start ">
           <div className="flex flex-col">
-            <div className="grid grid-cols-2">
-              <h1 className="  font-roboto font-semibold text-6xl text-center sm:mr-16 md:mr-28 lg:text-justify pt-2  ">
+            <div className="grid lg:grid-cols-2 relative">
+              <Link
+                to="/profile/updateProfile"
+                className="text-gray-400  sm:ml-54 md:ml-54 lg:ml-88 absolute "
+              >
+                {/* <EditOutlined className="text-2xl" /> */}
+                <Pencil1Icon className="size-7" />
+              </Link>
+              <h1 className="font-roboto font-semibold sm:text-center sm:text-4xl sm:tracking-wide  lg:text-6xl text-center lg:text-justify pt-2">
                 {capitilizeFirstCharacter(username)}
               </h1>
-              <Link to="/profile/updateProfile" className="  mt-5 ml-30 md:ml-39">
-                <EditOutlined className="text-2xl" />
-              </Link>
+              {/* <Link */}
+              {/*   to="/profile/updateProfile" */}
+              {/*   className="text-gray-400  ml-30 md:ml-39 sm:hidden md:block" */}
+              {/* > */}
+              {/*   <EditOutlined className="text-2xl" /> */}
+              {/* </Link> */}
             </div>
             <div>
               <h3 className="text-gray-400 font-roboto pr-2 sm:text-center lg:text-justify lg:ml-1 max-w-lg h-[100px] md:max-w-sm  overflow-hidden  ">
@@ -65,10 +76,10 @@ export default function CurrentUserProfile() {
                 />
               </div>
 
-              <div className="flex-1 min-w-0">
+              <div className="flex-1 min-w-0 ">
                 <h1 className="font-bold">{capitilizeFirstCharacter(post.author?.username)}</h1>
-                <h2 className="font-semibold mt-1">{post?.title}</h2>
-                <p className="mt-1 break-words">{limitChar(post?.content, paragraphLimit)}</p>
+                <h2 className="font-semibold mt-1 break-words">{post?.title}</h2>
+                <p className="mt-1 ">{limitChar(post?.content, paragraphLimit)}</p>
 
                 <div>
                   {post?.images?.[0]?.url && (
