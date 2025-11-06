@@ -39,6 +39,20 @@ export const signInSchema = z.object({
   password: z.string().min(1, { error: 'Password is required' }),
 });
 
+export const updateUserInfoSchema = z.object({
+  username: z
+    .string()
+    .min(1, { error: 'Username field is required' })
+    .max(10, { error: 'Username is too long' }),
+  about: z.string().min(1, { error: 'About field is required' }),
+  images: z
+    .instanceof(FileList)
+    .optional()
+    .refine((files) => !files || !files[0] || acceptedImageTypes.includes(files[0]?.type), {
+      error: 'Only .jpg, .jpeg, .png is supported',
+    }),
+});
+
 export const postBaseSchema = {
   title: z.string().min(1, { error: 'Title is required' }).max(50, { error: 'Title is too long' }),
   content: z
@@ -46,19 +60,8 @@ export const postBaseSchema = {
     .min(1, { error: 'required field' })
     .max(1500, { error: 'Maximum is 1500 characters' }),
   images: z
-    .any()
+    .instanceof(FileList)
     .optional()
-    // .refine(
-    //   (files) => {
-    //     if (!files) return true;
-    //
-    //     if (files instanceof FileList) return true;
-    //
-    //     if (Array.isArray(files)) return files.every((f) => typeof f === 'string' || f.url);
-    //     return false;
-    //   },
-    //   { error: 'Invalid image data format' }
-    // )
     .refine((files) => !files || !files[0] || acceptedImageTypes.includes(files[0]?.type), {
       error: 'Only .jpg, .jpeg, .png is supported',
     }),
