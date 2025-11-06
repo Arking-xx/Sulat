@@ -19,7 +19,7 @@ export default function Post() {
     <div className=" flex items-start justify-center  min-h-screen  mt-26 pl-12 sm:px-12">
       <div className="w-3xl">
         <article className=" flex items-start justify-center gap-4 border-b border-gray-200 sm:pt-5 md:pb-3 lg:pt-5 md:pt-5">
-          <div className="flex-1 relative ">
+          <div className="flex-1 relative break-all">
             <div className="flex items-center absolute -top-7  gap-2 sm:shrink-0">
               <img
                 src={singlePost?.author?.images?.[0]?.url}

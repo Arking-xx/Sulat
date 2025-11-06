@@ -96,16 +96,16 @@ export default function UserLandingPage() {
               </h2>
             </div>
             <Link to={`/post/${post.slug}`} className="cursor-pointer">
-              <section className="">
+              <section className="break-all">
                 <h3 className="md:text-xl font-roboto font-bold pt-2">{post?.title}</h3>
-                <div className="break-all">
+                <div className="">
                   <h3>{limitChar(post?.content, paragraphLimit)}</h3>
                 </div>
                 <div className="pr-8">
                   {post.images?.[0]?.url && (
                     <img
                       src={post.images?.[0]?.url}
-                      className="rounded-sm sm:h-50 md:h-100 w-full object-cover "
+                      className="rounded-sm sm:h-50 md:h-100 w-full object-cover"
                       alt=""
                     />
                   )}

@@ -22,7 +22,6 @@ export default function OtherUserProfile() {
   };
 
   const username = visitUser.data?.user?.username;
-
   const profileImage = visitUser.data?.user?.images?.[0]?.url || defaultImage;
   const about: string = visitUser.data?.user?.about || defaultAboutUser;
 
@@ -61,8 +60,8 @@ export default function OtherUserProfile() {
                 />
               </div>
               <div className="flex-1 min-w-0">
-                <h1 className="font-bold">{capitilizeFirstCharacter(post.author?.username)}</h1>
-                <h2 className="font-semibold mt-1">{post?.title}</h2>
+                <h1 className="font-bold ">{capitilizeFirstCharacter(post.author?.username)}</h1>
+                <h2 className="font-semibold mt-1 break-words">{post?.title}</h2>
                 <p className="mt-1 break-words">{limitChar(post?.content, paragraphLimit)}</p>
 
                 <div>
