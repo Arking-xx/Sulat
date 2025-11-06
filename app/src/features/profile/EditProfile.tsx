@@ -7,10 +7,12 @@ import { useImagePreview } from '../../hooks/useImagePreview';
 import { useAuth } from '../../hooks/auth/useAuth';
 import { useTextarea } from '../../hooks/useUtilityHook';
 import { capitilizeFirstCharacter, resizeTextArea } from '../../utility/utils';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { updateUserInfoSchema } from '../../validation/formSchema';
 
 export type UpdateUser = {
-  username?: string;
-  about?: string;
+  username: string;
+  about: string;
   image?: FileList;
 };
 
@@ -33,6 +35,7 @@ export default function EditProfile() {
     formState: { errors },
     watch,
   } = useForm<UpdateUser>({
+    resolver: zodResolver(updateUserInfoSchema),
     mode: 'onBlur',
     defaultValues: {
       username: user?.username || ' ',
