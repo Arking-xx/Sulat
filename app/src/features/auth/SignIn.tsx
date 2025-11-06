@@ -1,7 +1,7 @@
 import { EyeOutlined, EyeInvisibleOutlined } from '@ant-design/icons';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useForm, type SubmitHandler } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { signInSchema, type userLogin } from '../../validation/formSchema';
 import { useAuth } from '../../hooks/auth/useAuth';
