@@ -1,16 +1,19 @@
 import { Link, useParams } from 'react-router-dom';
-import { useAuth } from '../features/auth/useAuth';
-import { capitilizeFirstCharacter } from '../utility/utils.ts';
-import { useState } from 'react';
-import { useBlog } from '../features/home/blog/useBlog.tsx';
-import { HeartIcon } from '@heroicons/react/24/outline';
+import { useAuth } from '../../hooks/auth/useAuth.tsx';
+import { useBlog } from '../../hooks/blogpost/useBlog.tsx';
+import { useLikePost } from '../../hooks/likepost/useLikePost.tsx';
 import { EditOutlined } from '@ant-design/icons';
-import { useLikePost } from '../features/home/blog/useLikePost.tsx';
-import type React from 'react';
+import { HeartIcon } from '@heroicons/react/24/outline';
+import {
+  capitilizeFirstCharacter,
+  limitChar,
+  paragraphLimit,
+  defaultImage,
+  defaultAboutUser,
+} from '../../utility/utils.ts';
 
-export default function UserProfile() {
+export default function CurrentUserProfile() {
   const { user } = useAuth();
-
   const { slug } = useParams();
   const { currentUserPost } = useBlog(slug);
   const { toggleLike } = useLikePost();
@@ -22,15 +25,8 @@ export default function UserProfile() {
   };
 
   const username = user?.username;
-
-  const profileImage =
-    user?.images?.[0]?.url ||
-    'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png';
-
-  const about: string =
-    user?.about ||
-    `Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam hic iste distinctio,
-            earum deserunt ipsa minima unde quos repellendus totam. Nemo, odio itaque blanditiis sed`;
+  const profileImage = user?.images?.[0]?.url || defaultImage;
+  const about: string = user?.about || defaultAboutUser;
 
   return (
     <div className="">
@@ -49,7 +45,7 @@ export default function UserProfile() {
               </Link>
             </div>
             <div>
-              <h3 className="text-gray-400 font-roboto pr-2 sm:text-center lg:text-justify lg:ml-1 max-w-lg h-[100px] md:max-w-sm  overflow-hidden break-all ">
+              <h3 className="text-gray-400 font-roboto pr-2 sm:text-center lg:text-justify lg:ml-1 max-w-lg h-[100px] md:max-w-sm  overflow-hidden  ">
                 {about}
               </h3>
             </div>
@@ -72,7 +68,7 @@ export default function UserProfile() {
               <div className="flex-1 min-w-0">
                 <h1 className="font-bold">{capitilizeFirstCharacter(post.author?.username)}</h1>
                 <h2 className="font-semibold mt-1">{post?.title}</h2>
-                <p className="mt-1 break-words">{post?.content}</p>
+                <p className="mt-1 break-words">{limitChar(post?.content, paragraphLimit)}</p>
 
                 <div>
                   {post?.images?.[0]?.url && (

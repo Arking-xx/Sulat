@@ -2,7 +2,7 @@ import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 import { ChatBubbleLeftRightIcon } from '@heroicons/react/24/outline';
 import { io } from 'socket.io-client';
 import { useState, useEffect } from 'react';
-import { useAuth } from '../auth/useAuth';
+import { useAuth } from '../../hooks/auth/useAuth';
 import { Link } from 'react-router-dom';
 
 type Messages = {

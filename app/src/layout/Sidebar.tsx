@@ -9,11 +9,11 @@ import {
 import Navbar from '../features/home/Navbar';
 import { Link } from 'react-router-dom';
 import { type FC, useState } from 'react';
-import { useComponent } from '../features/ui/useComponent';
+import { useHideLayout } from '../hooks/useHideLayout';
 
 const Sidebar: FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(true);
-  const { hideElements } = useComponent();
+  const { hideElements } = useHideLayout();
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);

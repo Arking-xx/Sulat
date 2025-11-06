@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { useForm, type SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { signUpSchema, type userRegister } from '../../validation/formSchema';
-import { useAuth } from './useAuth';
+import { useAuth } from '../../hooks/auth/useAuth';
 
 export default function SignUp() {
   const { registerUser } = useAuth();

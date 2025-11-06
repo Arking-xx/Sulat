@@ -1,7 +1,7 @@
-import { useBlog } from './blog/useBlog';
+import { useBlog } from '../../hooks/blogpost/useBlog.tsx';
 import { HeartIcon } from '@heroicons/react/24/outline';
 import { useParams } from 'react-router-dom';
-import { useLikePost } from './blog/useLikePost';
+import { useLikePost } from '../../hooks/likepost/useLikePost.tsx';
 import { capitilizeFirstCharacter } from '../../utility/utils.ts';
 
 export default function Post() {

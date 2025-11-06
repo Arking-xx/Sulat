@@ -1,10 +1,16 @@
-import { useParams } from 'react-router-dom';
 import { HeartIcon } from '@heroicons/react/24/outline';
-import { capitilizeFirstCharacter } from '../utility/utils.ts';
-import { useLikePost } from '../features/home/blog/useLikePost.tsx';
-import { useUserFind } from '../features/auth/useAuth.tsx';
+import { useParams } from 'react-router-dom';
+import { useLikePost } from '../../hooks/likepost/useLikePost.tsx';
+import { useUserFind } from '../../hooks/auth/useAuth.tsx';
+import {
+  limitChar,
+  capitilizeFirstCharacter,
+  paragraphLimit,
+  defaultImage,
+  defaultAboutUser,
+} from '../../utility/utils.ts';
 
-export default function VisitUserProfile() {
+export default function OtherUserProfile() {
   const { id } = useParams();
   const { visitUser } = useUserFind(id!);
   const { toggleLike } = useLikePost();
@@ -17,14 +23,8 @@ export default function VisitUserProfile() {
 
   const username = visitUser.data?.user?.username;
 
-  const profileImage =
-    visitUser.data?.user?.images?.[0]?.url ||
-    'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png';
-
-  const about: string =
-    visitUser.data?.user?.about ||
-    `Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam hic iste distinctio,
-            earum deserunt ipsa minima unde quos repellendus totam. Nemo, odio itaque blanditiis sed`;
+  const profileImage = visitUser.data?.user?.images?.[0]?.url || defaultImage;
+  const about: string = visitUser.data?.user?.about || defaultAboutUser;
 
   return (
     <div className="overflow-hidden">
@@ -63,7 +63,7 @@ export default function VisitUserProfile() {
               <div className="flex-1 min-w-0">
                 <h1 className="font-bold">{capitilizeFirstCharacter(post.author?.username)}</h1>
                 <h2 className="font-semibold mt-1">{post?.title}</h2>
-                <p className="mt-1 break-words">{post?.content}</p>
+                <p className="mt-1 break-words">{limitChar(post?.content, paragraphLimit)}</p>
 
                 <div>
                   {post?.images?.[0]?.url && (

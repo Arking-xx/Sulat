@@ -1,14 +1,14 @@
 import { HeartIcon } from '@heroicons/react/24/outline';
 import { Link, useParams } from 'react-router-dom';
-import { useBlog } from './blog/useBlog.tsx';
-import { useLikePost } from './blog/useLikePost.tsx';
 import { capitilizeFirstCharacter, paragraphLimit, limitChar } from '../../utility/utils.ts';
 import type React from 'react';
 import { LoadingOutlined } from '@ant-design/icons';
 import Dropdown from '../../layout/Dropdown.tsx';
-import { useAuth } from '../auth/useAuth.tsx';
-import { useVisitUser } from '../ui/useComponent.tsx';
 import { useEffect, useState, useRef, useMemo } from 'react';
+import { useAuth } from '../../hooks/auth/useAuth.tsx';
+import { useBlog } from '../../hooks/blogpost/useBlog.tsx';
+import { useLikePost } from '../../hooks/likepost/useLikePost.tsx';
+import { useVisitUser } from '../../hooks/useUtilityHook.tsx';
 
 export default function UserLandingPage() {
   const { slug } = useParams();

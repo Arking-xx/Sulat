@@ -1,4 +1,4 @@
-import Modal from '../features/ui/Modal';
+import Modal from '../features/components/ui/Modal';
 import { Link } from 'react-router-dom';
 function Navbar() {
   return (

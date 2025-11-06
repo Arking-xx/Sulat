@@ -1,57 +1,30 @@
 import { ImageIcon, Cross1Icon } from '@radix-ui/react-icons';
-import { useBlog } from '../features/home/blog/useBlog';
-import { useNavigate, useParams } from 'react-router-dom';
-import { useForm, type SubmitHandler } from 'react-hook-form';
-import Navbar from '../features/home/Navbar';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { updateSchema } from '../validation/formSchema';
-import { useImagePreview } from '../features/ui/useComponent';
 import { LoadingOutlined } from '@ant-design/icons';
-import type { UpdatePost } from '../types/common';
-import { useEffect, useRef } from 'react';
+import { useForm, type SubmitHandler } from 'react-hook-form';
+import { useNavigate, useParams } from 'react-router-dom';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useBlog } from '../../hooks/blogpost/useBlog.tsx';
+import { useImagePreview } from '../../hooks/useImagePreview.tsx';
+import type { CreateBlog } from '../../types/common.ts';
+import { resizeTextArea } from '../../utility/utils.ts';
+import { writeSchema } from '../../validation/formSchema.ts';
+import Navbar from '../home/Navbar.tsx';
 
-export default function EditPost() {
-  const navigate = useNavigate();
-  const { slug } = useParams<{ slug: string }>();
-  const { updatePost, isUpdatingPost, singlePost } = useBlog(slug);
-
-  const { imagePreview, handleChange, handleRemove } = useImagePreview({
-    initialImage: singlePost?.images?.[0]?.url,
-  });
-
+export default function CreatePost() {
   const {
     register,
     handleSubmit,
-    reset,
     formState: { errors },
-    watch,
-  } = useForm<UpdatePost>({
-    resolver: zodResolver(updateSchema),
-    defaultValues: {
-      title: singlePost?.title || '',
-      content: singlePost?.content || '',
-    },
+  } = useForm<CreateBlog>({
+    resolver: zodResolver(writeSchema),
+    mode: 'onBlur',
   });
 
-  const contentValue = watch('content');
-  useEffect(() => {
-    const textArea = document.querySelector<HTMLTextAreaElement>('textarea[name="content"]');
-    if (textArea) {
-      textArea.style.height = 'auto';
-      textArea.style.height = `${textArea.scrollHeight}px`;
-    }
-  }, [contentValue]);
+  const { slug } = useParams();
+  const { createPost, isCreating } = useBlog(slug);
+  const navigate = useNavigate();
 
-  useEffect(() => {
-    if (singlePost) {
-      reset({
-        title: singlePost.title,
-        content: singlePost.content,
-      });
-    }
-  }, [singlePost, reset]);
-
-  const onSubmit: SubmitHandler<UpdatePost> = async (data) => {
+  const onSubmit: SubmitHandler<CreateBlog> = async (data) => {
     try {
       const formData = new FormData();
       if (data.title) formData.append('title', data.title);
@@ -59,29 +32,28 @@ export default function EditPost() {
       if (data.images && data.images[0]) {
         formData.append('image', data.images[0]);
       }
-      const response = await updatePost({ formdata: formData, slug });
+      const response = await createPost(formData);
       console.log(response);
-      navigate(`/post/${response.updatedPost.slug}`);
+      navigate(`/post/${response.post.slug}`);
     } catch (error) {
       console.log(error);
     }
   };
 
+  const { imagePreview, handleChange, handleRemove } = useImagePreview();
+
   return (
     <div className="mt-25 flex justify-center mx-auto  ">
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="flex ">
-          <div className="flex flex-col gap-1  px-5 sm:w-80 md:min-w-2xl ">
+          <div className="flex flex-col gap-2  px-5 sm:w-80 md:min-w-lg ">
             <div>
               {errors.title && <span className="text-xs text-red-500">{errors.title.message}</span>}
             </div>
             <textarea
-              className="resize-none text-lg font-lora focus:outline-none overflow-hidden border  "
+              className="resize-none text-2xl font-lora focus:outline-none overflow-hidden "
               placeholder="Title"
-              onInput={(e) => {
-                e.currentTarget.style.height = 'auto';
-                e.currentTarget.style.height = `${e.currentTarget.scrollHeight}px`;
-              }}
+              onInput={(e) => resizeTextArea(e)}
               {...register('title')}
             />
             <div>
@@ -90,13 +62,10 @@ export default function EditPost() {
               )}
             </div>
             <textarea
-              className="resize-none focus:outline-none sm:text-xl  overflow-hidden"
+              className="resize-none focus:outline-none sm:text-xl mt-2 overflow-hidden"
               placeholder="Tell your story..."
+              onInput={(e) => resizeTextArea(e)}
               {...register('content')}
-              onInput={(e) => {
-                e.currentTarget.style.height = 'auto';
-                e.currentTarget.style.height = `${e.currentTarget.scrollHeight}px`;
-              }}
             />
             <div className="relative">
               {imagePreview && (
@@ -145,7 +114,7 @@ export default function EditPost() {
               type="submit"
               className="border rounded-2xl text-white bg-black w-23 h-8 mr-3 font-semibold cursor-pointer"
             >
-              {isUpdatingPost ? <LoadingOutlined className="mb-1" /> : 'Publish'}
+              {isCreating ? <LoadingOutlined className="mb-1" /> : 'Publish'}
             </button>
           }
         />

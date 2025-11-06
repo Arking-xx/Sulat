@@ -3,10 +3,10 @@ import { Link } from 'react-router-dom';
 import { HamburgerMenuIcon, MagnifyingGlassIcon } from '@radix-ui/react-icons';
 import { PencilSquareIcon } from '@heroicons/react/24/outline';
 import ProfileDropDown from '../../layout/ProfileDropDown';
-import { useComponent } from '../ui/useComponent';
 import Notification from './Notification';
-import { blogApi } from './blog/useBlog';
 import { useQuery } from '@tanstack/react-query';
+import { blogApi } from '../../api/blogpost/blogApi';
+import { useHideLayout } from '../../hooks/useHideLayout';
 
 type NavbarProps = {
   toggleMenu?: () => void;
@@ -24,7 +24,7 @@ function useDebounce<T>(value: T, delay: number) {
 }
 
 const Navbar: FC<NavbarProps> = ({ toggleMenu, button }: NavbarProps) => {
-  const { hideElements } = useComponent();
+  const { hideElements } = useHideLayout();
 
   const [searchTerm, setSearchTerm] = useState('');
   const debounceSearch = useDebounce(searchTerm, 250);

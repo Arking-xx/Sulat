@@ -1,4 +1,4 @@
-import Modal from '../ui/Modal';
+import Modal from '../components/ui/Modal';
 export default function Home() {
   return (
     <div className="fixed  h-150 min-w-screen  flex justify-start items-center pl-48 ">

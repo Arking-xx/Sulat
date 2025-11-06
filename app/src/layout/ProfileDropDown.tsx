@@ -1,6 +1,6 @@
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 import { Link, useNavigate } from 'react-router-dom';
-import { useAuth } from '../features/auth/useAuth';
+import { useAuth } from '../hooks/auth/useAuth';
 
 export default function ProfileDropDown() {
   const { user, logout } = useAuth();
