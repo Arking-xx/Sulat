@@ -10,6 +10,7 @@ import Navbar from '../features/home/Navbar';
 import { Link } from 'react-router-dom';
 import { type FC, useState } from 'react';
 import { useHideLayout } from '../hooks/useHideLayout';
+import Notification from '../features/home/Notification';
 
 const Sidebar: FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(true);
@@ -125,6 +126,7 @@ const Sidebar: FC = () => {
           </AnimatePresence>
         </div>
       )}
+      <Notification />
     </div>
   );
 };
