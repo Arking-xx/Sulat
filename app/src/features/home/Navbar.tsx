@@ -3,25 +3,15 @@ import { Link } from 'react-router-dom';
 import { HamburgerMenuIcon, MagnifyingGlassIcon } from '@radix-ui/react-icons';
 import { PencilSquareIcon } from '@heroicons/react/24/outline';
 import ProfileDropDown from '../../layout/ProfileDropDown';
-import Notification from './Notification';
 import { useQuery } from '@tanstack/react-query';
 import { blogApi } from '../../api/blogpost/blogApi';
 import { useHideLayout } from '../../hooks/useHideLayout';
+import { useDebounce } from '../../hooks/useUtilityHook';
 
 type NavbarProps = {
   toggleMenu?: () => void;
   button?: React.ReactNode;
 };
-
-function useDebounce<T>(value: T, delay: number) {
-  const [debounceValue, setDebounceValue] = useState<T>(value);
-
-  useEffect(() => {
-    const timer = setTimeout(() => setDebounceValue(value), delay);
-    return () => clearTimeout(timer);
-  }, [value, delay]);
-  return debounceValue;
-}
 
 const Navbar: FC<NavbarProps> = ({ toggleMenu, button }: NavbarProps) => {
   const { hideElements } = useHideLayout();
@@ -100,9 +90,9 @@ const Navbar: FC<NavbarProps> = ({ toggleMenu, button }: NavbarProps) => {
           {!hideElements && (
             <div className="flex items-center gap-3 ">
               <div className=""></div>
-              <div>
+              {/*<div>
                 <Notification />
-              </div>
+              </div>*/}
 
               <Link to="/write">
                 <div className="group flex items-center   gap-1 mr-2 cursor-pointer">
