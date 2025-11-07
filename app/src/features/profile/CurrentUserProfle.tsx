@@ -79,7 +79,7 @@ export default function CurrentUserProfile() {
               <div className="flex-1 min-w-0 ">
                 <h1 className="font-bold">{capitilizeFirstCharacter(post.author?.username)}</h1>
                 <h2 className="font-semibold mt-1 break-words">{post?.title}</h2>
-                <p className="mt-1 ">{limitChar(post?.content, paragraphLimit)}</p>
+                <p className="mt-1 break-words">{limitChar(post?.content, paragraphLimit)}</p>
 
                 <div>
                   {post?.images?.[0]?.url && (
@@ -97,7 +97,7 @@ export default function CurrentUserProfile() {
                   <div>
                     <HeartIcon
                       onClick={(e) => handleLike(e, post.slug!)}
-                      className={`cursor-pointer size-6 lg:size-7  stroke-1 hover:fill-red-600 hover:text-white   
+                      className={`cursor-pointer size-6 lg:size-7  stroke-1 hover:fill-red-600 hover:text-white
     									${post.isLiked ? `fill-red-600 ${'text-white'}` : 'fill-white'}`}
                     />
                   </div>
