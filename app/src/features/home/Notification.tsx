@@ -69,13 +69,16 @@ export default function Notification() {
   return (
     <DropdownMenu.Root modal={false}>
       <DropdownMenu.Trigger asChild className="">
-        <button className="cursor-pointer">
-          <ChatBubbleLeftRightIcon className="size-6 text-gray-500 stroke-1" />
+        <button className="cursor-pointer fixed right-10 bottom-14 border rounded-full px-2 py-2 bg-black">
+          <ChatBubbleLeftRightIcon className="size-6 text-white stroke-1" />
         </button>
       </DropdownMenu.Trigger>
 
       <DropdownMenu.Portal>
-        <DropdownMenu.Content className="w-80 h-100 bg-white shadow-lg rounded-lg p-2 z-50 mr-2">
+        <DropdownMenu.Content
+          side="top"
+          className="w-80 h-100 bg-white shadow-lg rounded-lg p-2 z-50 mr-2 relative"
+        >
           <div className="w-full h-full flex flex-col">
             <div className="flex-1 overflow-y-auto px-2 py-2 space-y-2">
               {messages.map((msg, index) => (
@@ -97,7 +100,11 @@ export default function Notification() {
                     <p className="text-sm break-words">{msg.text}</p>
                   </div>
                   {msg.isMine && (
-                    <img src={user?.images?.[0]?.url} alt="" className="size-8 rounded-full ml-2" />
+                    <img
+                      src={user?.images?.[0]?.url}
+                      alt=""
+                      className="size-8 rounded-full ml-2 object-cover"
+                    />
                   )}
                 </div>
               ))}
@@ -133,11 +140,6 @@ export default function Notification() {
               </button>
             </div>
           </div>
-
-          {/* <DropdownMenu.Separator className="h-px bg-gray-200 my-1" /> */}
-          {/* <DropdownMenu.Item className="flex items-center p-3 hover:bg-gray-50 rounded focus:outline-none hover:border-1 cursor-pointer"> */}
-          {/*   <button className="font-roboto">Sign Out</button> */}
-          {/* </DropdownMenu.Item> */}
           <DropdownMenu.Arrow className="fill-white stroke-gray-200 stroke-1" />
         </DropdownMenu.Content>
       </DropdownMenu.Portal>
