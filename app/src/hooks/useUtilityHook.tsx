@@ -1,6 +1,6 @@
 import { useAuth } from './auth/useAuth';
 import { useNavigate } from 'react-router-dom';
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 
 export const useVisitUser = () => {
@@ -33,4 +33,14 @@ export function ScrollToTop() {
     window.scrollTo(0, 0);
   }, [pathname]);
   return null;
+}
+
+export function useDebounce<T>(value: T, delay: number) {
+  const [debounceValue, setDebounceValue] = useState<T>(value);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setDebounceValue(value), delay);
+    return () => clearTimeout(timer);
+  }, [value, delay]);
+  return debounceValue;
 }
