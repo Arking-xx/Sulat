@@ -10,6 +10,7 @@ export default function SignIn() {
   const [isPasswordVisible, setPasswordVisible] = useState(false);
   const { login, isLoading, loginError } = useAuth();
 
+  const RETURN_URL = import.meta.env.VITE_RETURN_URL;
   const {
     register,
     handleSubmit,
@@ -35,6 +36,12 @@ export default function SignIn() {
     } catch (error: any) {
       console.log('Error', error);
     }
+  };
+
+  const handleGoogleLogin = () => {
+    const returnUrl = `${window.location.origin}/posts`;
+    const authUrl = `${RETURN_URL}${encodeURIComponent(returnUrl)}`;
+    window.location.href = authUrl;
   };
 
   return (
@@ -95,6 +102,14 @@ export default function SignIn() {
           className="w-full h-10 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-md transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
         >
           {isLoading ? 'Signing in...' : 'Sign in'}
+        </button>
+
+        <button
+          disabled={isLoading}
+          onClick={handleGoogleLogin}
+          className="mt-2 w-full h-10 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-md transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+        >
+          Continue with google
         </button>
 
         {loginError && (
