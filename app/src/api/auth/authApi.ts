@@ -71,6 +71,17 @@ export const authApi = {
     }
   },
 
+  checkUsernameAvailibity: async (username: string) => {
+    try {
+      const response = await axios.get(`${API_URL}/api/users?username=${username}`);
+      const data = response.data;
+      return data.available;
+    } catch (err) {
+      const error = err instanceof Error ? err : new Error('Failed to fetch username');
+      throw error;
+    }
+  },
+
   logout: async (): Promise<BackendResponse> => {
     return await axios.post(`${API_URL}/api/auth/logout`);
   },
