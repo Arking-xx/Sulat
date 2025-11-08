@@ -1,5 +1,6 @@
 import * as z from 'zod';
-import { checkUsernameAvailibity } from '../features/auth/useUserApi.tsx';
+// import { checkUsernameAvailibity } from '../features/auth/useUserApi.tsx';
+import { authApi } from '../api/auth/authApi';
 
 const acceptedImageTypes = ['image/jpeg', 'image/jpg', 'image/png'];
 
@@ -12,7 +13,7 @@ export const signUpSchema = z.object({
     .refine(
       async (username) => {
         try {
-          return await checkUsernameAvailibity(username);
+          return await authApi.checkUsernameAvailibity(username);
         } catch (err) {
           console.log('Username check failed', err);
           return false;
