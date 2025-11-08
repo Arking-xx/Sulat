@@ -7,6 +7,7 @@ import { useQuery } from '@tanstack/react-query';
 import { blogApi } from '../../api/blogpost/blogApi';
 import { useHideLayout } from '../../hooks/useHideLayout';
 import { useDebounce } from '../../hooks/useUtilityHook';
+import Button from '../components/ui/Button';
 
 type NavbarProps = {
   toggleMenu?: () => void;
@@ -44,9 +45,9 @@ const Navbar: FC<NavbarProps> = ({ toggleMenu, button }: NavbarProps) => {
         <div className="flex items-center  gap-5 z-50">
           <div className="flex items-center pt-1 ml-2 ">
             {!hideElements && (
-              <button onClick={toggleMenu} className="">
+              <Button onClick={toggleMenu} className="">
                 <HamburgerMenuIcon className="size-6 cursor-pointer" />
-              </button>
+              </Button>
             )}
           </div>
 
@@ -90,9 +91,6 @@ const Navbar: FC<NavbarProps> = ({ toggleMenu, button }: NavbarProps) => {
           {!hideElements && (
             <div className="flex items-center gap-3 ">
               <div className=""></div>
-              {/*<div>
-                <Notification />
-              </div>*/}
 
               <Link to="/write">
                 <div className="group flex items-center   gap-1 mr-2 cursor-pointer">
@@ -108,8 +106,31 @@ const Navbar: FC<NavbarProps> = ({ toggleMenu, button }: NavbarProps) => {
           <ProfileDropDown />
         </div>
 
-        <div className="lg:hidden md:hidden">
-          <MagnifyingGlassIcon className="w-7 h-7 text-gray-500  " />
+        <div className="lg:hidden md:hidden py-1">
+          <div className="flex bg-white rounded-full h-10 focus:rounded-b-full">
+            <input
+              value={searchTerm}
+              onChange={handleChangeTitle}
+              type="text"
+              placeholder="Search title..."
+              className="flex-1 bg-transparent outline-none text-sm font-medium ml-2"
+            />
+          </div>
+          {searchTerm && searchTitle.length > 0 && (
+            <div className="absolute top-full  w-full bg-white shadow-lg rounded-lg z-50 max-h-64 overflow-y-scroll no-scrollbar">
+              {data?.searchTitle.map((post) => (
+                <Link
+                  key={post._id}
+                  to={`/post/${post.slug}`}
+                  className="block p-3 hover:bg-gray-50 rounded cursor-pointer text-sm"
+                  onClick={() => setSearchTerm('')}
+                >
+                  <p>Author: {post.author.username}</p>
+                  {post.title}
+                </Link>
+              ))}
+            </div>
+          )}
         </div>
       </nav>
     </div>

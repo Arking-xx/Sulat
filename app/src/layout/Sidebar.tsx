@@ -11,10 +11,12 @@ import { Link } from 'react-router-dom';
 import { type FC, useState } from 'react';
 import { useHideLayout } from '../hooks/useHideLayout';
 import Notification from '../features/home/Notification';
+import { useLogout } from '../hooks/useUtilityHook';
 
 const Sidebar: FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(true);
   const { hideElements } = useHideLayout();
+  const { handleLogout } = useLogout();
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -71,14 +73,6 @@ const Sidebar: FC = () => {
                       </Link>
                     </li>
                     <li className="p-2">
-                      <a href="" className="hover:underline decoration-1">
-                        <div className="flex items-center">
-                          <BookOpenIcon className="w-6 mr-5 " />
-                          <h2>Library</h2>
-                        </div>
-                      </a>
-                    </li>
-                    <li className="p-2">
                       <Link
                         to="/profile"
                         onClick={() => closeSidebar()}
@@ -90,15 +84,6 @@ const Sidebar: FC = () => {
                         </div>
                       </Link>
                     </li>
-                    <li className="p-2">
-                      <a href="" className="hover:underline decoration-1">
-                        <div className="flex items-center">
-                          <UsersIcon className="w-6 mr-5" />
-                          <h2>Following</h2>
-                        </div>
-                      </a>
-                    </li>
-
                     <li className="p-2 lg:hidden md:hidden">
                       <Link
                         onClick={() => closeSidebar()}
@@ -113,11 +98,11 @@ const Sidebar: FC = () => {
                     </li>
 
                     <li className="py-2  border-t  border-gray-400 mt-5 lg:hidden md:hidden">
-                      <Link to="/write" className="hover:underline decoration-1">
-                        <div className="flex items-center justify-center">
+                      <div className="flex items-center justify-center">
+                        <button onClick={handleLogout}>
                           <h2 className="text-red-400">Sign Out</h2>
-                        </div>
-                      </Link>
+                        </button>
+                      </div>
                     </li>
                   </ul>
                 </div>
