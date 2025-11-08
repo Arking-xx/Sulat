@@ -1,16 +1,17 @@
 import { EyeOutlined, EyeInvisibleOutlined } from '@ant-design/icons';
+import { Cross1Icon } from '@radix-ui/react-icons';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { signInSchema, type userLogin } from '../../validation/formSchema';
 import { useAuth } from '../../hooks/auth/useAuth';
+import Xbutton from '../components/ui/Xbutton';
 
 export default function SignIn() {
   const [isPasswordVisible, setPasswordVisible] = useState(false);
   const { login, isLoading, loginError } = useAuth();
 
-  const RETURN_URL = import.meta.env.VITE_RETURN_URL;
   const {
     register,
     handleSubmit,
@@ -38,18 +39,15 @@ export default function SignIn() {
     }
   };
 
-  const handleGoogleLogin = () => {
-    const returnUrl = `${window.location.origin}/posts`;
-    const authUrl = `${RETURN_URL}${encodeURIComponent(returnUrl)}`;
-    window.location.href = authUrl;
-  };
-
   return (
     <div className="flex items-center justify-center min-h-screen   p-4 bg-primary">
       <form
         className="w-full max-w-md bg-white p-8 rounded-lg shadow-lg"
         onSubmit={handleSubmit(onSubmit)}
       >
+        <div className="flex justify-end ">
+          <Xbutton />
+        </div>
         <h2 className="text-2xl font-semibold text-center mb-6 text-gray-900">Sign In</h2>
 
         <div className="mb-4">
@@ -103,15 +101,6 @@ export default function SignIn() {
         >
           {isLoading ? 'Signing in...' : 'Sign in'}
         </button>
-
-        <button
-          disabled={isLoading}
-          onClick={handleGoogleLogin}
-          className="mt-2 w-full h-10 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-md transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-        >
-          Continue with google
-        </button>
-
         {loginError && (
           <p className="text-red-500 text-sm text-center mt-2">
             {loginError instanceof Error ? loginError.message : 'Login failed'}

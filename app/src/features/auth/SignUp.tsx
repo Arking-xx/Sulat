@@ -5,6 +5,7 @@ import { useForm, type SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { signUpSchema, type userRegister } from '../../validation/formSchema';
 import { useAuth } from '../../hooks/auth/useAuth';
+import Xbutton from '../components/ui/Xbutton';
 
 export default function SignUp() {
   const { registerUser } = useAuth();
@@ -36,6 +37,9 @@ export default function SignUp() {
         className="w-full max-w-md bg-white p-8 rounded-lg shadow-lg"
         onSubmit={handleSubmit(onSubmit)}
       >
+        <div className="flex justify-end ">
+          <Xbutton />
+        </div>
         <h2 className="text-2xl font-semibold text-center mb-6 text-gray-900">Create Account</h2>
 
         <div className="mb-4">
