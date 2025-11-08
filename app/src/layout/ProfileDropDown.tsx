@@ -1,11 +1,13 @@
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../hooks/auth/useAuth';
+import Button from '../features/components/ui/Button';
+import { useLogout } from '../hooks/useUtilityHook';
 
 export default function ProfileDropDown() {
-  const { user, logout } = useAuth();
+  const { user } = useAuth();
+  const { handleLogout } = useLogout();
 
-  const navigate = useNavigate();
   const username = user?.username;
   const capitalizeFirstLetter = (users: string | undefined) => {
     if (!users) return ' ';
@@ -16,25 +18,16 @@ export default function ProfileDropDown() {
   const profileImage = user?.images?.[0]?.url;
   ('https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png');
 
-  const handleLogout = async () => {
-    try {
-      await logout();
-      navigate('/');
-    } catch (error) {
-      console.log('failed to logout', error);
-    }
-  };
-
   return (
     <DropdownMenu.Root modal={false}>
       <DropdownMenu.Trigger asChild>
-        <button className="cursor-pointer">
+        <Button className="cursor-pointer">
           <img
             src={profileImage}
             alt="Profile"
             className="rounded-full w-10 h-10 hover:border-1 object-cover"
           />
-        </button>
+        </Button>
       </DropdownMenu.Trigger>
 
       <DropdownMenu.Portal>
@@ -58,7 +51,7 @@ export default function ProfileDropDown() {
             onClick={handleLogout}
             className="flex items-center p-3 hover:bg-gray-50 rounded focus:outline-none hover:border-1 cursor-pointer"
           >
-            <button className="font-roboto">Sign Out</button>
+            <Button className="font-roboto">Sign Out</Button>
           </DropdownMenu.Item>
           <DropdownMenu.Arrow className="fill-white stroke-gray-200 stroke-1" />
         </DropdownMenu.Content>
