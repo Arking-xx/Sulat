@@ -57,14 +57,59 @@ export type UpdatePost = Pick<BlogPost, 'title' | 'content'> & {
   images?: FileList;
 };
 
-export type SearchTitle = Pick<BlogPost, '_id' | 'title' | 'author'> & {
-  slug?: string;
-  author: Author;
-};
-
 export type BlogpostApiResponse<TData> = {
   success?: boolean;
   posts?: TData;
+};
+
+type PopulateBlogpost = Omit<BlogPost, 'author'> & {
+  author: {
+    username: string;
+  };
+};
+
+// User api
+export type LoginUserResponse = Pick<User, '_id' | 'username' | 'images'>;
+export type CheckAuthResponse = Pick<User, '_id' | 'username' | 'images' | 'about'>;
+export type RegisterUserResponse = Pick<User, 'username' | 'images'> & {
+  id: string;
+};
+export type UpdateUserResponse = Pick<User, '_id' | 'username' | 'images' | 'about'>;
+export type VisitUserResponse = {
+  user: User;
+  posts: BlogPost;
+};
+
+// blogposts api
+export type SearchTitleResponse = {
+  blogpost: PopulateBlogpost[];
+};
+export type getAllPostResponse = {
+  posts: BlogPost[];
+  currentPage: number;
+  totalPages: number;
+  totalPosts: number;
+  postsPerPage: number;
+  hasNextPage: boolean;
+  hasPrevPage: boolean;
+};
+export type getSinglePostResponse = {
+  post: BlogPost;
+};
+export type CreatePostResponse = {
+  newPost: CreateBlog;
+};
+export type CurrentUserResponse = {
+  ownPost: BlogPost[];
+};
+export type UpdatePostResponse = {
+  updatedPost: Pick<BlogPost, 'title' | 'content'> & {
+    slug?: string;
+    images: FileList;
+  };
+};
+export type DeletePostResponse = {
+  deletedPost: BlogPost;
 };
 
 // api response
@@ -75,27 +120,27 @@ export type BackendResponse<TData = unknown> = {
 } & TData;
 
 //  Blogpost api response
-export type CreatePostResponse = BackendResponse<{ post: CreateBlog }>;
-export type PostResponse = BackendResponse<{ post: BlogPost }>;
-export type PostsResponse = BackendResponse<{
-  posts: BlogPost[];
-  pagination: {
-    currentPage: number;
-    totalPages: number;
-    totalPosts: number;
-    postsPerPage: number;
-    hasNextPage: boolean;
-    hasPrevPage: boolean;
-  };
-}>;
-export type UpdatePostResponse = BackendResponse<{ updatedPost: UpdatePost }>;
-export type GetCurrentLogPostReponse = BackendResponse<{ posts: BlogPost[] }>;
-export type DeletePostResponse = BackendResponse<{ deletedPost: BlogPost }>;
-export type SearchTitleResponse = BackendResponse<{ searchTitle: SearchTitle[] }>;
+// export type CreatePostResponse = BackendResponse<{ post: CreateBlog }>;
+// export type PostResponse = BackendResponse<{ post: BlogPost }>;
+// export type PostsResponse = BackendResponse<{
+//   posts: BlogPost[];
+//   pagination: {
+//     currentPage: number;
+//     totalPages: number;
+//     totalPosts: number;
+//     postsPerPage: number;
+//     hasNextPage: boolean;
+//     hasPrevPage: boolean;
+//   };
+// }>;
+// export type UpdatePostResponse = BackendResponse<{ updatedPost: UpdatePost }>;
+// export type GetCurrentLogPostReponse = BackendResponse<{ posts: BlogPost[] }>;
+// export type DeletePostResponse = BackendResponse<{ deletedPost: BlogPost }>;
+// export type SearchTitleResponse = BackendResponse<{ searchTitle: SearchTitle[] }>;
 
 // user api response
-export type RegisterUserResponse = BackendResponse<{ user: RegisterUserData }>;
+// export type RegisterUserResponse = BackendResponse<{ user: RegisterUserData }>;
 export type LoginPostResponse = BackendResponse<{ user: User }>;
-export type CheckAuthRespone = BackendResponse<{ user: User }>;
-export type VisitUserResponse = BackendResponse<{ user: User; posts: BlogPost[] }>;
-export type UpdateUserResponse = BackendResponse<{ user: CheckAuth }>;
+// export type CheckAuthRespone = BackendResponse<{ user: User }>;
+// export type VisitUserResponse = BackendResponse<{ user: User; posts: BlogPost[] }>;
+// export type UpdateUserResponse = BackendResponse<{ user: CheckAuth }>;

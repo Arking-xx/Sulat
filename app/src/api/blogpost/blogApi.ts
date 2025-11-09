@@ -1,12 +1,12 @@
 import axios from 'axios';
 import type {
+  SearchTitleResponse,
+  getAllPostResponse,
+  getSinglePostResponse,
   CreatePostResponse,
-  GetCurrentLogPostReponse,
-  PostResponse,
-  PostsResponse,
+  CurrentUserResponse,
   UpdatePostResponse,
   DeletePostResponse,
-  SearchTitleResponse,
 } from '../../types/common';
 
 const API_URL = import.meta.env.VITE_API_URL;
@@ -18,7 +18,7 @@ export const blogApi = {
       const { data } = await axios.post<CreatePostResponse>(`${API_URL}/api/post`, formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
-      console.log(data.post);
+      console.log(data);
       return data;
     } catch (error) {
       console.log('failed to create post', error);
@@ -26,9 +26,9 @@ export const blogApi = {
     }
   },
 
-  getAllPost: async (page: number = 1, limit: number = 10): Promise<PostsResponse> => {
+  getAllPost: async (page: number = 1, limit: number = 10): Promise<getAllPostResponse> => {
     try {
-      const { data } = await axios.get<PostsResponse>(`${API_URL}/api/posts`, {
+      const { data } = await axios.get<getAllPostResponse>(`${API_URL}/api/posts`, {
         params: { page, limit },
       });
       return data;
@@ -40,7 +40,7 @@ export const blogApi = {
 
   getSinglePost: async (slug: string | null | undefined) => {
     try {
-      const { data } = await axios.get<PostResponse>(`${API_URL}/api/post/${slug}`);
+      const { data } = await axios.get<getSinglePostResponse>(`${API_URL}/api/post/${slug}`);
       console.log('single post', data.post);
       return data.post;
     } catch (error) {
@@ -49,10 +49,11 @@ export const blogApi = {
     }
   },
 
-  getCurrentUserLogPost: async () => {
+  getCurrentUserLogPost: async (): Promise<CurrentUserResponse> => {
     try {
-      const { data } = await axios.get<GetCurrentLogPostReponse>(`${API_URL}/api/posts/me`);
-      return data.success ? data : null;
+      const { data } = await axios.get<CurrentUserResponse>(`${API_URL}/api/posts/me`);
+      // return data ? data : null;
+      return data;
     } catch (error: any) {
       console.log(error);
       throw error;

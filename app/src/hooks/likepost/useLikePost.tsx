@@ -1,17 +1,17 @@
 import { useQueryClient, useMutation, type InfiniteData } from '@tanstack/react-query';
-import type { PostsResponse, BlogPost } from '../../types/common';
+import type { getAllPostResponse, BlogPost } from '../../types/common';
 import { likePost } from '../../api/likepost/likePost';
 export const useLikePost = () => {
   const queryClient = useQueryClient();
 
   const likedPost = useMutation<
-    { success: boolean; message: string; post: BlogPost },
-    { message: string },
+    { post: BlogPost },
+    Error,
     string, // for slugs
     {
-      prevPosts?: InfiniteData<PostsResponse>;
+      prevPosts?: InfiniteData<getAllPostResponse>;
       prevSinglePost?: BlogPost;
-      prevUserPosts?: { success: boolean; posts: BlogPost[] };
+      prevUserPosts?: { ownPost: BlogPost[] };
     }
   >({
     mutationFn: likePost.like,
@@ -22,18 +22,15 @@ export const useLikePost = () => {
       await queryClient.cancelQueries({ queryKey: ['posts', slug] });
 
       // saving old data states
-      const prevPosts = queryClient.getQueryData<InfiniteData<PostsResponse>>(['posts']);
+      const prevPosts = queryClient.getQueryData<InfiniteData<getAllPostResponse>>(['posts']);
       const prevSinglePost = queryClient.getQueryData<BlogPost>(['posts', slug]);
 
-      const prevUserPosts = queryClient.getQueryData<{ success: boolean; posts: BlogPost[] }>([
-        'posts',
-        'me',
-      ]);
+      const prevUserPosts = queryClient.getQueryData<{ ownPost: BlogPost[] }>(['posts', 'me']);
 
       console.log(prevPosts);
       // for useInfinite since the array is nested we structured it this way
       if (prevPosts) {
-        queryClient.setQueryData<InfiniteData<PostsResponse>>(['posts'], {
+        queryClient.setQueryData<InfiniteData<getAllPostResponse>>(['posts'], {
           ...prevPosts,
           pages: prevPosts.pages.map((page) => ({
             ...page,
@@ -42,7 +39,7 @@ export const useLikePost = () => {
                 ? {
                     ...post,
                     isLiked: !post.isLiked,
-                    likesCount: post.likesCount
+                    likesCount: post.isLiked
                       ? Math.max(0, (post.likesCount || 0) - 1)
                       : (post.likesCount || 0) + 1,
                   }
@@ -56,14 +53,14 @@ export const useLikePost = () => {
       //
       //for current log user
       if (prevUserPosts) {
-        queryClient.setQueryData<{ success: boolean; posts: BlogPost[] }>(['posts', 'me'], {
+        queryClient.setQueryData<{ ownPost: BlogPost[] }>(['posts', 'me'], {
           ...prevUserPosts,
-          posts: prevUserPosts.posts.map((prev) =>
+          ownPost: prevUserPosts.ownPost.map((prev) =>
             prev.slug === slug
               ? {
                   ...prev,
                   isLiked: !prev.isLiked,
-                  likesCount: prev.likesCount
+                  likesCount: prev.isLiked
                     ? Math.max(0, (prev.likesCount || 0) - 1)
                     : (prev.likesCount || 0) + 1,
                 }
@@ -76,7 +73,7 @@ export const useLikePost = () => {
         queryClient.setQueryData<BlogPost>(['posts', slug], {
           ...prevSinglePost,
           isLiked: !prevSinglePost.isLiked,
-          likesCount: prevSinglePost.likesCount
+          likesCount: prevSinglePost.isLiked
             ? Math.max(0, (prevSinglePost.likesCount || 0) - 1)
             : (prevSinglePost.likesCount || 0) + 1,
         });
@@ -95,7 +92,7 @@ export const useLikePost = () => {
                 ? {
                     ...post,
                     isLiked: !post.isLiked,
-                    likesCount: post.likesCount
+                    likesCount: post.isLiked
                       ? Math.max(0, (post.likesCount || 0) - 1)
                       : (post.likesCount || 0) + 1,
                   }
@@ -133,39 +130,24 @@ export const useLikePost = () => {
     onSuccess: (data, slug) => {
       const updatedPost = data.post; // extract the server data
 
-      // const prevPosts = queryClient.getQueryData<{
-      //   success: boolean;
-      //   posts: BlogPost[];
-      // }>(['posts']);
-      //
-      // if (prevPosts?.posts) {
-      //   queryClient.setQueryData<{ success: boolean; posts: BlogPost[] }>(['posts'], {
-      //     ...prevPosts,
-      //     posts: prevPosts.posts.map((post) => (post.slug === slug ? updatedPost : post)),
-      //   });
-      // }
-
-      queryClient.setQueryData(['posts'], (old: any) => {
+      queryClient.setQueryData<InfiniteData<getAllPostResponse>>(['posts'], (old) => {
         if (!old?.pages) return old;
         return {
           ...old,
-          pages: old.pages.map((page: any) => ({
+          pages: old.pages.map((page) => ({
             ...page,
-            posts: page.posts.map((post: BlogPost) => (post.slug === slug ? updatedPost : post)),
+            posts: page.posts.map((post) => (post.slug === slug ? updatedPost : post)),
           })),
         };
       });
 
       queryClient.setQueryData<BlogPost>(['posts', slug], updatedPost);
 
-      const prevUserPost = queryClient.getQueryData<{ success: boolean; posts: BlogPost[] }>([
-        'posts',
-        'me',
-      ]);
-      if (prevUserPost?.posts) {
-        queryClient.setQueryData<{ success: boolean; posts: BlogPost[] }>(['posts', 'me'], {
+      const prevUserPost = queryClient.getQueryData<{ ownPost: BlogPost[] }>(['posts', 'me']);
+      if (prevUserPost?.ownPost) {
+        queryClient.setQueryData<{ ownPost: BlogPost[] }>(['posts', 'me'], {
           ...prevUserPost,
-          posts: prevUserPost.posts.map((post) => (post.slug === slug ? updatedPost : post)),
+          ownPost: prevUserPost.ownPost.map((post) => (post.slug === slug ? updatedPost : post)),
         });
       }
 

@@ -26,7 +26,7 @@ const Navbar: FC<NavbarProps> = ({ toggleMenu, button }: NavbarProps) => {
     enabled: !!debounceSearch,
   });
 
-  const searchTitle = data?.searchTitle?.map((post) => post.title) || [];
+  const searchTitle = data?.blogpost?.map((post) => post.title) || [];
 
   const handleChangeTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event.target.value);
@@ -71,7 +71,7 @@ const Navbar: FC<NavbarProps> = ({ toggleMenu, button }: NavbarProps) => {
 
             {searchTerm && searchTitle.length > 0 && (
               <div className="absolute top-full mt-2 w-full bg-white shadow-lg rounded-lg p-2 z-50 max-h-64 overflow-y-scroll no-scrollbar">
-                {data?.searchTitle.map((post) => (
+                {data?.blogpost?.map((post) => (
                   <Link
                     key={post._id}
                     to={`/post/${post.slug}`}
@@ -118,7 +118,7 @@ const Navbar: FC<NavbarProps> = ({ toggleMenu, button }: NavbarProps) => {
           </div>
           {searchTerm && searchTitle.length > 0 && (
             <div className="absolute top-full  w-full bg-white shadow-lg rounded-lg z-50 max-h-64 overflow-y-scroll no-scrollbar">
-              {data?.searchTitle.map((post) => (
+              {data?.blogpost?.map((post) => (
                 <Link
                   key={post._id}
                   to={`/post/${post.slug}`}

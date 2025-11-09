@@ -1,5 +1,6 @@
 import { useQueryClient, useQuery, useMutation } from '@tanstack/react-query';
 import { authApi } from '../../api/auth/authApi';
+import axios from 'axios';
 
 export const useUserFind = (id: string) => {
   const visitUser = useQuery({
@@ -29,7 +30,7 @@ export const useAuth = () => {
   const registerMutation = useMutation({
     mutationFn: authApi.registerUser,
     onSuccess: (data) => {
-      queryClient.setQueryData(['auth'], data.user);
+      queryClient.setQueryData(['auth'], data);
       queryClient.invalidateQueries({ queryKey: ['auth'] });
     },
   });
@@ -38,11 +39,12 @@ export const useAuth = () => {
     mutationFn: ({ username, password }: { username: string; password: string }) =>
       authApi.login(username, password),
     onSuccess: (data) => {
-      if (data.success && data.user) {
-        queryClient.setQueryData(['auth'], data.user);
-        queryClient.invalidateQueries({ queryKey: ['auth'] });
-      } else if (!data.success) {
-        console.log('Login failed', data.error);
+      queryClient.setQueryData(['auth'], data);
+      queryClient.invalidateQueries({ queryKey: ['auth'] });
+    },
+    onError: (error) => {
+      if (axios.isAxiosError(error)) {
+        console.log('Login failed', error.response?.data?.error);
       }
     },
   });
@@ -51,7 +53,7 @@ export const useAuth = () => {
     mutationFn: authApi.updateUser,
     // setting optimistic data
     onSuccess: (data) => {
-      queryClient.setQueryData(['auth'], data.user);
+      queryClient.setQueryData(['auth'], data);
       queryClient.invalidateQueries({ queryKey: ['auth'] }); //fall back if setQueryData reflect the data immediatly
       queryClient.invalidateQueries({ queryKey: ['posts'] }); //fall back if setQueryData reflect the data immediatly
     },

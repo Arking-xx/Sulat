@@ -56,11 +56,6 @@ export default function Post() {
             </div>
 
             <div className="gap-1 sm:flex lg:flex   ">
-              {/* <HeartIcon */}
-              {/*   onClick={(e) => handleLike(e, singlePost?.slug!)} */}
-              {/*   className={`cursor-pointer size-6 lg:size-7  stroke-1 hover:fill-red-600 hover:text-white    */}
-              {/* ${singlePost?.isLiked ? `fill-red-600 ${'text-white'}` : 'fill-white'}`} */}
-              {/* /> */}
               <HeartIcon
                 onClick={(e) => handleLike(e, singlePost?.slug!)}
                 className={` stroke-1 w-7 cursor-pointer text-gray-400 sm:pt-5 hover:fill-red-600 hover:text-white
@@ -73,8 +68,6 @@ export default function Post() {
               </div>
             </div>
           </div>
-
-          {/* <hr className="text-gray-300  " /> */}
         </article>
       </div>
     </div>

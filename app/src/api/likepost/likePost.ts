@@ -6,9 +6,7 @@ axios.defaults.withCredentials = true;
 export const likePost = {
   like: async (slug: string) => {
     try {
-      const { data } = await axios.post<{ success: boolean; message: string; post: BlogPost }>(
-        `${API_URL}/api/post/${slug}/like`
-      );
+      const { data } = await axios.post<{ post: BlogPost }>(`${API_URL}/api/post/${slug}/like`);
       return data;
     } catch (error) {
       console.log('failed to create like', error);

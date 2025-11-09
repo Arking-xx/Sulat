@@ -1,6 +1,7 @@
 import Navbar from '../home/Navbar';
 import { CameraIcon } from '@heroicons/react/24/outline';
 import { LoadingOutlined } from '@ant-design/icons';
+import Button from '../components/ui/Button';
 import { useForm, type SubmitHandler } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { useImagePreview } from '../../hooks/useImagePreview';
@@ -128,12 +129,12 @@ export default function EditProfile() {
         </div>
         <Navbar
           button={
-            <button
+            <Button
               type="submit"
               className="border rounded-2xl text-white bg-black w-23 h-8 mr-3 font-semibold cursor-pointer"
             >
               {updateUserLoading ? <LoadingOutlined className="mb-1" /> : 'Submit'}
-            </button>
+            </Button>
           }
         />
       </form>

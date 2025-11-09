@@ -11,6 +11,7 @@ import { resizeTextArea } from '../../utility/utils';
 import type { UpdatePost } from '../../types/common';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Navbar from '../home/Navbar';
+import Button from '../components/ui/Button';
 
 export default function EditPost() {
   const navigate = useNavigate();
@@ -88,15 +89,21 @@ export default function EditPost() {
               onInput={(e) => resizeTextArea(e)}
               {...register('content')}
             />
+
+            <div>
+              {errors.images && (
+                <span className="text-xs text-red-500">{errors.images.message}</span>
+              )}
+            </div>
             <div className="relative">
               {imagePreview && (
                 <div>
-                  <button
+                  <Button
                     onClick={handleRemove}
                     className=" absolute  right-0  stroke-amber-50 z-50 "
                   >
                     <Cross1Icon className="size-7" />
-                  </button>
+                  </Button>
                   <img
                     src={imagePreview}
                     alt=""
@@ -110,9 +117,9 @@ export default function EditPost() {
                 <ImageIcon className="absolute  left-0 z-10 size-8" />
               </label>
               {
-                <button className="bg-black text-white  rounded-full px-2 absolute right-0 mt-2">
+                <Button className="bg-black text-white  rounded-full px-2 absolute right-0 mt-2">
                   Publish
-                </button>
+                </Button>
               }
             </div>
           </div>
@@ -131,12 +138,12 @@ export default function EditPost() {
         </div>
         <Navbar
           button={
-            <button
+            <Button
               type="submit"
               className="border rounded-2xl text-white bg-black w-23 h-8 mr-3 font-semibold cursor-pointer"
             >
               {isUpdatingPost ? <LoadingOutlined className="mb-1" /> : 'Publish'}
-            </button>
+            </Button>
           }
         />
       </form>

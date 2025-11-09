@@ -3,12 +3,12 @@ import { Link } from 'react-router-dom';
 function Navbar() {
   return (
     <>
-      <nav className="absolute bg-primary shadow-lg flex items-center justify-between py-3 px-32  top-0 left-0 w-full ">
+      <nav className="absolute bg-primary shadow-lg flex items-center justify-between py-3 top-0 left-0 w-screen overflow-hidden">
         <Link to="/">
-          <span className="font-semibold font-lora text-2xl text-text-color">Sulat</span>
+          <span className="font-semibold font-lora text-2xl text-text-color ">Sulat</span>
         </Link>
 
-        <div className=" flex items-center gap-8 text-text-color">
+        <div className=" flex items-center gap-8 text-text-color sm:hidden md:flex">
           <div className="flex items-center gap-5">
             <Link to="/" className="py-1 px-3 text-sm font-roboto font-normal">
               About
@@ -26,9 +26,10 @@ function Navbar() {
           <Modal
             signgupText="Sign up"
             signinText="Sign in"
+            googleSignup="Sign up with Google"
             heading="Join Sulat."
             title="Get started"
-            className=" text-sm cursor-pointer font-semibold text-white bg-black rounded-full px-4 py-2 "
+            className="text-sm cursor-pointer font-semibold text-white bg-black rounded-full px-4 py-2"
           />
         </div>
       </nav>

@@ -2,7 +2,6 @@ import { Link, useParams } from 'react-router-dom';
 import { useAuth } from '../../hooks/auth/useAuth.tsx';
 import { useBlog } from '../../hooks/blogpost/useBlog.tsx';
 import { useLikePost } from '../../hooks/likepost/useLikePost.tsx';
-import { EditOutlined } from '@ant-design/icons';
 import { HeartIcon } from '@heroicons/react/24/outline';
 import { Pencil1Icon } from '@radix-ui/react-icons';
 import {
@@ -48,12 +47,6 @@ export default function CurrentUserProfile() {
               <h1 className="font-roboto font-semibold sm:text-center sm:text-4xl sm:tracking-wide  lg:text-6xl text-center lg:text-justify pt-2">
                 {capitilizeFirstCharacter(username)}
               </h1>
-              {/* <Link */}
-              {/*   to="/profile/updateProfile" */}
-              {/*   className="text-gray-400  ml-30 md:ml-39 sm:hidden md:block" */}
-              {/* > */}
-              {/*   <EditOutlined className="text-2xl" /> */}
-              {/* </Link> */}
             </div>
             <div>
               <h3 className="text-gray-400 font-roboto pr-2 sm:text-center lg:text-justify lg:ml-1 max-w-lg h-[100px] md:max-w-sm  overflow-hidden  ">
@@ -65,7 +58,7 @@ export default function CurrentUserProfile() {
       </div>
       <div className="max-w-4xl mx-auto px-5 mt-5">
         {/*                             */}
-        {currentUserPost?.data?.posts?.map((post) => (
+        {currentUserPost?.data?.ownPost?.map((post) => (
           <section key={post.slug} className="mb-4 border-b border-b-gray-300">
             <div className="flex gap-3  px-5 py-3">
               <div className="flex-shrink-0">

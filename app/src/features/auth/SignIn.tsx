@@ -1,5 +1,4 @@
 import { EyeOutlined, EyeInvisibleOutlined } from '@ant-design/icons';
-import { Cross1Icon } from '@radix-ui/react-icons';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';

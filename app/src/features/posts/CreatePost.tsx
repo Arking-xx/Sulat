@@ -9,6 +9,7 @@ import type { CreateBlog } from '../../types/common.ts';
 import { resizeTextArea } from '../../utility/utils.ts';
 import { writeSchema } from '../../validation/formSchema.ts';
 import Navbar from '../home/Navbar.tsx';
+import Button from '../components/ui/Button.tsx';
 
 export default function CreatePost() {
   const {
@@ -33,8 +34,8 @@ export default function CreatePost() {
         formData.append('image', data.images[0]);
       }
       const response = await createPost(formData);
-      console.log(response);
-      navigate(`/post/${response.post.slug}`);
+      console.log(response.newPost.slug);
+      navigate(`/post/${response.newPost.slug}`);
     } catch (error) {
       console.log(error);
     }
@@ -46,12 +47,12 @@ export default function CreatePost() {
     <div className="mt-25 flex justify-center mx-auto  ">
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="flex ">
-          <div className="flex flex-col gap-2  px-5 sm:w-80 md:min-w-lg ">
+          <div className="flex flex-col gap-2  px-5 sm:w-80 md:min-w-2xl ">
             <div>
               {errors.title && <span className="text-xs text-red-500">{errors.title.message}</span>}
             </div>
             <textarea
-              className="resize-none text-2xl font-lora focus:outline-none overflow-hidden "
+              className="resize-none text-xl font-lora focus:outline-none overflow-hidden h-10"
               placeholder="Title"
               onInput={(e) => resizeTextArea(e)}
               {...register('title')}
@@ -62,20 +63,26 @@ export default function CreatePost() {
               )}
             </div>
             <textarea
-              className="resize-none focus:outline-none sm:text-xl mt-2 overflow-hidden"
+              className="resize-none focus:outline-none sm:text-m mt-2 overflow-hidden"
               placeholder="Tell your story..."
               onInput={(e) => resizeTextArea(e)}
               {...register('content')}
             />
+
+            <div>
+              {errors.images && (
+                <span className="text-xs text-red-500">{errors.images.message}</span>
+              )}
+            </div>
             <div className="relative">
               {imagePreview && (
                 <div>
-                  <button
+                  <Button
                     onClick={handleRemove}
                     className=" absolute  right-0  stroke-amber-50 z-50 "
                   >
                     <Cross1Icon className="size-7" />
-                  </button>
+                  </Button>
                   <img
                     src={imagePreview}
                     alt=""
@@ -89,16 +96,18 @@ export default function CreatePost() {
                 <ImageIcon className="absolute  left-0 z-10 size-8" />
               </label>
               {
-                <button className="bg-black text-white  rounded-full px-2 absolute right-0 mt-2">
+                <Button className="bg-black text-white  rounded-full px-2 absolute right-0 mt-2">
                   Publish
-                </button>
+                </Button>
               }
             </div>
           </div>
+
           <div className="mt-2 sm:hidden md:block  ">
             <label htmlFor="upload_image">
               <ImageIcon className="size-8" />
             </label>
+
             <input
               type="file"
               hidden
@@ -110,12 +119,12 @@ export default function CreatePost() {
         </div>
         <Navbar
           button={
-            <button
+            <Button
               type="submit"
               className="border rounded-2xl text-white bg-black w-23 h-8 mr-3 font-semibold cursor-pointer"
             >
               {isCreating ? <LoadingOutlined className="mb-1" /> : 'Publish'}
-            </button>
+            </Button>
           }
         />
       </form>

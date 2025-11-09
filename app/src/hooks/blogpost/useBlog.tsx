@@ -1,6 +1,12 @@
-import { useQueryClient, useQuery, useMutation, useInfiniteQuery } from '@tanstack/react-query';
+import {
+  useQueryClient,
+  useQuery,
+  useMutation,
+  useInfiniteQuery,
+  type InfiniteData,
+} from '@tanstack/react-query';
 import { blogApi } from '../../api/blogpost/blogApi';
-import type { PostsResponse } from '../../types/common';
+import type { getAllPostResponse } from '../../types/common';
 
 export const useBlog = (slug?: string) => {
   const queryClient = useQueryClient();
@@ -10,32 +16,36 @@ export const useBlog = (slug?: string) => {
     queryFn: ({ pageParam = 1 }) => blogApi.getAllPost(pageParam, 10),
     getNextPageParam: (lastPage) => {
       if (!lastPage) return undefined;
-      if (!lastPage.pagination) return undefined;
-      return lastPage.pagination.hasNextPage ? lastPage.pagination.currentPage + 1 : undefined;
+      // if (!lastPage.pagination) return undefined;
+      return lastPage.hasNextPage ? lastPage.currentPage + 1 : undefined;
     },
     initialPageParam: 1,
     retry: false,
-    staleTime: 10_000,
+    staleTime: 60_000,
     gcTime: 10 * 60 * 1000,
-    refetchInterval: 5000,
+    // refetchInterval: 5000,
   });
 
   const { data: singlePost } = useQuery({
     queryKey: ['posts', slug],
     queryFn: () => blogApi.getSinglePost(slug!),
     enabled: !!slug,
-    staleTime: 10_000,
-    gcTime: 10 * 60 * 1000,
-    // refetchOnWindowFocus: true,
-    // refetchOnMount: true,
-    // refetchInterval: 3000,
+    staleTime: 60_000,
+    gcTime: 10 * 60 * 100,
     initialData: () => {
-      const cachedData = queryClient.getQueryData<PostsResponse>(['posts']);
-      // if (!cachedData?.posts) return undefined;
+      const cachedData = queryClient.getQueryData<InfiniteData<getAllPostResponse>>(['posts']);
+      if (!cachedData?.pages) return undefined;
 
-      const post = cachedData?.posts?.find((post) => post.slug === slug);
-      return post;
+      // const post = cachedData?.posts?.find((post) => post.slug === slug);
+      // return post;
+      for (const page of cachedData.pages) {
+        const post = page?.posts?.find((post) => post.slug === slug);
+        if (post) return post;
+      }
+      return undefined;
     },
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
   });
 
   const currentUserPost = useQuery({

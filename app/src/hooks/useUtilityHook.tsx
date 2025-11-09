@@ -35,6 +35,7 @@ export function ScrollToTop() {
   return null;
 }
 
+//for search
 export function useDebounce<T>(value: T, delay: number) {
   const [debounceValue, setDebounceValue] = useState<T>(value);
 
@@ -44,3 +45,17 @@ export function useDebounce<T>(value: T, delay: number) {
   }, [value, delay]);
   return debounceValue;
 }
+
+export const useLogout = () => {
+  const { logout } = useAuth();
+  const navigate = useNavigate();
+  const handleLogout = async () => {
+    try {
+      await logout();
+      navigate('/');
+    } catch (error) {
+      console.log('failed to logout', error);
+    }
+  };
+  return { handleLogout };
+};

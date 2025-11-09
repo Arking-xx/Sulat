@@ -1,13 +1,12 @@
 import axios from 'axios';
 import type {
-  LoginPostResponse,
+  LoginUserResponse,
+  CheckAuthResponse,
   RegisterUserResponse,
-  RegisterUserData,
-  CheckAuth,
-  CheckAuthRespone,
-  VisitUserResponse,
-  BackendResponse,
   UpdateUserResponse,
+  VisitUserResponse,
+  RegisterUserData,
+  BackendResponse,
 } from '../../types/common';
 
 const API_URL = import.meta.env.VITE_API_URL;
@@ -20,18 +19,20 @@ export const authApi = {
       if (!data) {
         console.log('failed to create user');
       }
+      console.log(data);
       return data;
     } catch (err) {
       throw new Error('failed to create user');
     }
   },
 
-  login: async (username: string, password: string): Promise<LoginPostResponse> => {
+  login: async (username: string, password: string): Promise<LoginUserResponse> => {
     try {
-      const { data } = await axios.post<LoginPostResponse>(`${API_URL}/api/auth/login`, {
+      const { data } = await axios.post<LoginUserResponse>(`${API_URL}/api/auth/login`, {
         username,
         password,
       });
+      console.log(data);
       return data;
     } catch (error: any) {
       const message = error.response?.data?.message;
@@ -40,11 +41,11 @@ export const authApi = {
     }
   },
 
-  checkAuth: async (): Promise<CheckAuth | null> => {
+  checkAuth: async (): Promise<CheckAuthResponse | null> => {
     try {
-      const { data } = await axios.get<CheckAuthRespone>(`${API_URL}/api/auth/me`);
-      console.log(data.user);
-      return data.success ? data.user : null;
+      const { data } = await axios.get<CheckAuthResponse>(`${API_URL}/api/auth/me`);
+      console.log(data);
+      return data;
     } catch (error) {
       console.log(error);
       return null;
@@ -82,7 +83,7 @@ export const authApi = {
     }
   },
 
-  logout: async (): Promise<BackendResponse> => {
+  logout: async () => {
     return await axios.post(`${API_URL}/api/auth/logout`);
   },
 };
