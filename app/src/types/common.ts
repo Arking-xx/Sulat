@@ -74,12 +74,13 @@ export type CheckAuthResponse = Pick<User, '_id' | 'username' | 'images' | 'abou
 export type RegisterUserResponse = Pick<User, 'username' | 'images'> & {
   id: string;
 };
-export type UpdateUserResponse = Pick<User, '_id' | 'username' | 'images' | 'about'>;
+export type UpdateUserResponse = Pick<User, 'username' | 'about'> & {
+  images?: FileList;
+};
 export type VisitUserResponse = {
   user: User;
   posts: BlogPost;
 };
-
 // blogposts api
 export type SearchTitleResponse = {
   blogpost: PopulateBlogpost[];
@@ -111,14 +112,13 @@ export type UpdatePostResponse = {
 export type DeletePostResponse = {
   deletedPost: BlogPost;
 };
-
 // api response
-export type BackendResponse<TData = unknown> = {
-  success: boolean;
-  error?: string;
-  message?: string;
-} & TData;
-
+// export type BackendResponse<TData = unknown> = {
+//   success: boolean;
+//   error?: string;
+//   message?: string;
+// } & TData;
+//
 //  Blogpost api response
 // export type CreatePostResponse = BackendResponse<{ post: CreateBlog }>;
 // export type PostResponse = BackendResponse<{ post: BlogPost }>;
@@ -140,7 +140,7 @@ export type BackendResponse<TData = unknown> = {
 
 // user api response
 // export type RegisterUserResponse = BackendResponse<{ user: RegisterUserData }>;
-export type LoginPostResponse = BackendResponse<{ user: User }>;
+// export type LoginPostResponse = BackendResponse<{ user: User }>;
 // export type CheckAuthRespone = BackendResponse<{ user: User }>;
 // export type VisitUserResponse = BackendResponse<{ user: User; posts: BlogPost[] }>;
 // export type UpdateUserResponse = BackendResponse<{ user: CheckAuth }>;
