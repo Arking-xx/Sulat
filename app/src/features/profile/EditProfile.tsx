@@ -10,21 +10,15 @@ import { useTextarea } from '../../hooks/useUtilityHook';
 import { capitilizeFirstCharacter, resizeTextArea } from '../../utility/utils';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { updateUserInfoSchema } from '../../validation/formSchema';
-
-export type UpdateUser = {
-  username: string;
-  about: string;
-  image?: FileList;
-};
+import { type UpdateUserResponse } from '../../types/common';
+import { defaultImage } from '../../utility/utils';
 
 export default function EditProfile() {
   // default and fallback if user didn't upload or update their user info
   const { user, updateUser, updateUserLoading } = useAuth();
   const navigate = useNavigate();
 
-  const profile =
-    user?.images?.[0]?.url ||
-    'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png';
+  const profile = user?.images?.[0]?.url || defaultImage;
 
   const { imagePreview, handleChange } = useImagePreview({
     initialImage: profile,
@@ -35,7 +29,7 @@ export default function EditProfile() {
     handleSubmit,
     formState: { errors },
     watch,
-  } = useForm<UpdateUser>({
+  } = useForm<UpdateUserResponse>({
     resolver: zodResolver(updateUserInfoSchema),
     mode: 'onBlur',
     defaultValues: {
@@ -47,14 +41,14 @@ export default function EditProfile() {
   const contentValue = watch('about');
   useTextarea('about', contentValue);
 
-  const onSubmit: SubmitHandler<UpdateUser> = async (data) => {
+  const onSubmit: SubmitHandler<UpdateUserResponse> = async (data) => {
     try {
       const formData = new FormData();
       if (data.username) formData.append('username', data.username);
       if (data.about) formData.append('about', data.about);
-      if (data.image && data.image[0]) {
-        console.log('selected file', data.image[0]);
-        formData.append('image', data.image[0]);
+      if (data.images && data.images[0]) {
+        console.log('selected file', data.images[0]);
+        formData.append('image', data.images[0]);
       } else {
         console.log('no file selected');
       }
@@ -102,7 +96,7 @@ export default function EditProfile() {
               id="upload_image"
               accept="image/*"
               hidden
-              {...register('image', { onChange: handleChange })}
+              {...register('images', { onChange: handleChange })}
             />
           </div>
 
