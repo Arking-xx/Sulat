@@ -19,13 +19,13 @@ export default function Modal(props: Props) {
   };
 
   return (
-    <div className="z-50">
+    <div className="z-[100px]">
       <Dialog.Root>
         <Dialog.Trigger asChild>
           <Button className={props.className}>{props.title}</Button>
         </Dialog.Trigger>
-        <Dialog.Overlay className="fixed inset-0 bg-black/50 data-[state=open]:animate-overlayShow " />
-        <Dialog.Content className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white p-6 rounded-md focus:outline-none shadow-lg max-w-md w-full data-[state=open]:animate-contentShow ">
+        <Dialog.Overlay className="fixed z-10 inset-0 bg-black/50 data-[state=open]:animate-overlayShow" />
+        <Dialog.Content className="fixed z-20 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white p-6 rounded-md focus:outline-none shadow-lg max-w-md w-full data-[state=open]:animate-contentShow ">
           <Dialog.Title className="flex justify-center py-6 font-lora text-2xl">
             {props.heading}
           </Dialog.Title>

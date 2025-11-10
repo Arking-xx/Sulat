@@ -1,8 +1,13 @@
+import { useHideLayout } from '../../hooks/useHideLayout';
+import Footer from '../../layout/Footer';
 import Modal from '../components/ui/Modal';
+import Navbar from './Navbar';
+import Sidebar from '../../layout/Sidebar';
 export default function HomePage() {
+  const { hideLayout } = useHideLayout();
   return (
-    <div className="fixed h-screen min-w-screen  flex sm:justify-center md:justify-start items-center overflow-hidden">
-      <div className="flex flex-col gap-5 md:px-24">
+    <div className=" h-140 min-w-screen  flex sm:justify-center md:justify-start items-center overflow-hidden">
+      <div className="flex flex-col gap-5 md:px-24  ">
         <div>
           <h1 className="font-lora sm:text-5xl md:text-8xl text-text-color font-medium ">
             Filipino
@@ -23,7 +28,7 @@ export default function HomePage() {
             signgupText="Sign up"
             googleSignup="Sign up with Google"
             signinText="Sign in"
-            className="text-sm cursor-pointer font-semibold text-white bg-black rounded-full py-4 px-7 "
+            className="text-sm cursor-pointer font-semibold text-white bg-black rounded-full py-4 px-7"
           />
         </div>
       </div>

@@ -36,16 +36,14 @@ export default function CurrentUserProfile() {
         </div>
         <div className="lg:col-span-7 px-10 flex items-center justify-center lg:justify-start ">
           <div className="flex flex-col">
-            <div className="grid lg:grid-cols-2 relative">
-              <Link
-                to="/profile/updateProfile"
-                className="text-gray-400  sm:ml-54 md:ml-54 lg:ml-88 absolute "
-              >
-                {/* <EditOutlined className="text-2xl" /> */}
-                <Pencil1Icon className="size-7" />
-              </Link>
+            <div className=" ">
               <h1 className="font-roboto font-semibold sm:text-center sm:text-4xl sm:tracking-wide  lg:text-6xl text-center lg:text-justify pt-2">
                 {capitilizeFirstCharacter(username)}
+
+                <Link to="/profile/updateProfile" className="text-gray-400  absolute mb-1">
+                  {/* <EditOutlined className="text-2xl" /> */}
+                  <Pencil1Icon className="size-7" />
+                </Link>
               </h1>
             </div>
             <div>

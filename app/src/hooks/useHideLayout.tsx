@@ -19,6 +19,9 @@ export function useHideLayout() {
 
     hideSidebar: ['/', '/signin', '/signup'].includes(location.pathname),
 
+    hideInHomePage: ['/'].includes(location.pathname),
+    _404: ['*'].includes(location.pathname),
+
     hideElements:
       ['/write'].includes(location.pathname) ||
       ['/profile/updateProfile'].includes(location.pathname) ||

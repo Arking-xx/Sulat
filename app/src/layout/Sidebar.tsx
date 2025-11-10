@@ -1,21 +1,16 @@
 import { AnimatePresence, motion } from 'framer-motion';
-import {
-  PencilSquareIcon,
-  UserIcon,
-  HomeIcon,
-  BookOpenIcon,
-  UsersIcon,
-} from '@heroicons/react/24/outline';
+import { PencilSquareIcon, UserIcon, HomeIcon } from '@heroicons/react/24/outline';
 import Navbar from '../features/home/Navbar';
 import { Link } from 'react-router-dom';
 import { type FC, useState } from 'react';
 import { useHideLayout } from '../hooks/useHideLayout';
 import Notification from '../features/home/Notification';
 import { useLogout } from '../hooks/useUtilityHook';
+import Footer from './Footer';
 
 const Sidebar: FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(true);
-  const { hideElements } = useHideLayout();
+  const { _404, hideElements } = useHideLayout();
   const { handleLogout } = useLogout();
 
   const toggleMenu = () => {
@@ -30,10 +25,15 @@ const Sidebar: FC = () => {
   };
 
   return (
-    <div>
+    <div className="">
       {!hideElements && (
         <div>
-          <Navbar toggleMenu={() => toggleMenu()} />
+          <Navbar
+            className={
+              ' bg-primary z-50  flex items-center justify-between py-4 pb-5  fixed top-0 left-0 w-full sm:px-3 md:px-20 lg:px-20'
+            }
+            toggleMenu={() => toggleMenu()}
+          />
           <AnimatePresence>
             {isMenuOpen && (
               <motion.div
@@ -42,7 +42,7 @@ const Sidebar: FC = () => {
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.3 }}
-                className="fixed inset-0 bg-opacity-50 z-30 lg:hidden sm:w-5 "
+                className="fixed inset-0 bg-opacity-50 z-10 lg:hidden sm:w-5 "
                 onClick={toggleMenu}
               />
             )}
@@ -56,7 +56,7 @@ const Sidebar: FC = () => {
                 animate={{ x: 0 }}
                 exit={{ x: '-100%' }}
                 transition={{ type: 'tween', duration: 0.3 }}
-                className="pt-18  h-full fixed top-0 left-0 z-30  "
+                className="pt-18  h-full fixed top-0 left-0 z-10  "
               >
                 <div className="border-r border-gray-200 pr-5 h-full shadow-sm bg-white z-20  w-[300px]   ">
                   <ul className="py-10 sm:ml-8 lg:ml-11 px-9 text-text-color --font-lora text-[20px]   ">

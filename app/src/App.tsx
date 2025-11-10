@@ -1,6 +1,5 @@
-import Home from './features/home/Home';
+import HomePage from './features/home/HomePage.tsx';
 import SignUp from './features/auth/SignUp';
-import Navbar from './layout/Navbar';
 import Footer from './layout/Footer';
 import SignIn from './features/auth/SignIn';
 import Sidebar from './layout/Sidebar.tsx';
@@ -10,35 +9,43 @@ import CurrentUserProfile from './features/profile/CurrentUserProfle.tsx';
 import OtherUserProfile from './features/profile/OtherUserProfile.tsx';
 import EditProfile from './features/profile/EditProfile.tsx';
 import EditPost from './features/posts/EditPost.tsx';
-import UserLandingPage from './features/home/UserLandingPage';
+import Feed from './features/home/Feed.tsx';
+import Notfound from './layout/Notfound.tsx';
 import { Routes, Route } from 'react-router-dom';
-
 import { AuthRouteGuard } from './features/auth/AuthRouteGuard.tsx';
 import { useHideLayout } from './hooks/useHideLayout.tsx';
+import Navbar from './features/home/Navbar.tsx';
 
 function App() {
-  const { hideLayout, hideSidebar } = useHideLayout();
+  const { _404, hideLayout, hideSidebar } = useHideLayout();
   return (
     <>
       <div className="">
-        {!hideLayout && <Navbar />}
-        {!hideLayout && <Footer />}
+        {!hideLayout && (
+          <Navbar
+            className={
+              'absolute bg-primary shadow-lg flex items-center justify-between py-3 px-32  top-0 left-0 w-full'
+            }
+          />
+        )}
         {!hideSidebar && <Sidebar />}
+        {!hideLayout && <Footer />}
 
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<HomePage />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/signin" element={<SignIn />} />
 
           <Route element={<AuthRouteGuard />}>
             <Route path="/write" element={<CreatePost />} />
             <Route path="/post/:slug" element={<Post />} />
-            <Route path="/posts" element={<UserLandingPage />} />
+            <Route path="/posts" element={<Feed />} />
             <Route path="/profile" element={<CurrentUserProfile />} />
             <Route path="/profile/updateprofile" element={<EditProfile />} />
             <Route path="/profile/user/:id" element={<OtherUserProfile />} />
             <Route path="/post/update/:slug" element={<EditPost />} />
           </Route>
+          <Route path="*" element={<Notfound />} />
         </Routes>
       </div>
     </>

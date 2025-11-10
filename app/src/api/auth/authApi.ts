@@ -18,7 +18,6 @@ export const authApi = {
       if (!data) {
         console.log('failed to create user');
       }
-      console.log(data);
       return data;
     } catch (err) {
       throw new Error('failed to create user');
@@ -31,7 +30,6 @@ export const authApi = {
         username,
         password,
       });
-      console.log(data);
       return data;
     } catch (error: any) {
       const message = error.response?.data?.message;
@@ -43,7 +41,6 @@ export const authApi = {
   checkAuth: async (): Promise<CheckAuthResponse | null> => {
     try {
       const { data } = await axios.get<CheckAuthResponse>(`${API_URL}/api/auth/me`);
-      console.log(data);
       return data;
     } catch (error) {
       console.log(error);
@@ -56,7 +53,6 @@ export const authApi = {
       const { data } = await axios.put<UpdateUserResponse>(`${API_URL}/api/user/update`, formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
-      console.log(data);
       return data;
     } catch (error: any) {
       throw new Error('failed to update user', error);

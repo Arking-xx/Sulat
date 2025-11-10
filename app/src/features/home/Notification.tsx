@@ -121,7 +121,7 @@ export default function Notification() {
                 name=""
                 id=""
                 placeholder="type a message"
-                className="w-full resize-none overflow-hidden px-2 py-1 border border-blue-500 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full resize-none overflow-hidden px-2 py-1 border border-black rounded-md focus:outline-none focus:ring-1 focus:ring-black "
                 rows={2}
                 onChange={(e) => setMessage(e.target.value)}
                 onKeyDown={(e) => {
@@ -134,7 +134,7 @@ export default function Notification() {
 
               <button
                 onClick={handleMessage}
-                className="w-full mt-2 bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600"
+                className="w-full mt-2 bg-black text-white py-2 rounded-md"
               >
                 Send
               </button>

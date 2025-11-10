@@ -122,6 +122,9 @@ export default function EditProfile() {
           </div>
         </div>
         <Navbar
+          className={
+            'bg-primary z-50  flex items-center justify-between py-4 pb-5  fixed top-0 left-0 w-full sm:px-3 md:px-20 lg:px-20'
+          }
           button={
             <Button
               type="submit"
