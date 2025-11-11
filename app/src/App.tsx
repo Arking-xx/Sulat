@@ -1,6 +1,5 @@
 import HomePage from './features/home/HomePage.tsx';
 import SignUp from './features/auth/SignUp';
-import Footer from './layout/Footer';
 import SignIn from './features/auth/SignIn';
 import Sidebar from './layout/Sidebar.tsx';
 import Post from './features/home/Post.tsx';
@@ -14,41 +13,29 @@ import Notfound from './layout/Notfound.tsx';
 import { Routes, Route } from 'react-router-dom';
 import { AuthRouteGuard } from './features/auth/AuthRouteGuard.tsx';
 import { useHideLayout } from './hooks/useHideLayout.tsx';
-import Navbar from './features/home/Navbar.tsx';
 
 function App() {
-  const { _404, hideLayout, hideSidebar } = useHideLayout();
+  const { hideSidebar } = useHideLayout();
   return (
-    <>
-      <div className="">
-        {!hideLayout && (
-          <Navbar
-            className={
-              'absolute bg-primary shadow-lg flex items-center justify-between py-3 px-32  top-0 left-0 w-full'
-            }
-          />
-        )}
-        {!hideSidebar && <Sidebar />}
-        {!hideLayout && <Footer />}
+    <div>
+      {!hideSidebar && <Sidebar />}
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/signup" element={<SignUp />} />
+        <Route path="/signin" element={<SignIn />} />
 
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/signup" element={<SignUp />} />
-          <Route path="/signin" element={<SignIn />} />
-
-          <Route element={<AuthRouteGuard />}>
-            <Route path="/write" element={<CreatePost />} />
-            <Route path="/post/:slug" element={<Post />} />
-            <Route path="/posts" element={<Feed />} />
-            <Route path="/profile" element={<CurrentUserProfile />} />
-            <Route path="/profile/updateprofile" element={<EditProfile />} />
-            <Route path="/profile/user/:id" element={<OtherUserProfile />} />
-            <Route path="/post/update/:slug" element={<EditPost />} />
-          </Route>
-          <Route path="*" element={<Notfound />} />
-        </Routes>
-      </div>
-    </>
+        <Route element={<AuthRouteGuard />}>
+          <Route path="/write" element={<CreatePost />} />
+          <Route path="/post/:slug" element={<Post />} />
+          <Route path="/posts" element={<Feed />} />
+          <Route path="/profile" element={<CurrentUserProfile />} />
+          <Route path="/profile/updateprofile" element={<EditProfile />} />
+          <Route path="/profile/user/:id" element={<OtherUserProfile />} />
+          <Route path="/post/update/:slug" element={<EditPost />} />
+        </Route>
+        <Route path="*" element={<Notfound />} />
+      </Routes>
+    </div>
   );
 }
 
