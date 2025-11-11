@@ -59,86 +59,88 @@ export default function Feed() {
   }, [getAllPosts.isFetchingNextPage]);
 
   return (
-    <div className=" mt-24 max-w-3xl mx-auto px-3 ">
-      {getAllPosts.isLoading && <div>Loading posts...</div>}
-      {getAllPosts.isError && <div>Error loading posts</div>}
+    <div>
+      <div className=" mt-24 max-w-3xl mx-auto px-3 ">
+        {getAllPosts.isLoading && <div>Loading posts...</div>}
+        {getAllPosts.isError && <div>Error loading posts</div>}
 
-      {posts.map((post) => (
-        <div key={post.slug} className="flex gap-3 py-5 border-b border-b-gray-300  ">
-          <div className="flex-shrink-0" onClick={() => visitUser(post.author?._id)}>
-            <img
-              src={post.author?.images?.[0]?.url}
-              className="size-8 rounded-full hover:border border-gray-400 cursor-pointer object-cover"
-              alt=""
-            />
-          </div>
-          <div className="flex flex-col mt-1 w-full">
-            <div className="relative">
-              <div className="absolute right-1 -top-10">
-                {post.author._id === currentLoggedUserId && (
-                  <Dropdown onDelete={() => deletePost(post.slug)} slug={post.slug} />
-                )}
-              </div>
+        {posts.map((post) => (
+          <div key={post.slug} className="flex gap-3 py-5 border-b border-b-gray-300  ">
+            <div className="flex-shrink-0" onClick={() => visitUser(post.author?._id)}>
+              <img
+                src={post.author?.images?.[0]?.url}
+                className="size-8 rounded-full hover:border border-gray-400 cursor-pointer object-cover"
+                alt=""
+              />
             </div>
-
-            {deleteLoadingState ? (
-              <div className="fixed inset-0 flex items-center justify-center backdrop-blur-none bg-black/5  z-50">
-                <LoadingOutlined className="text-6xl animate-spin" />
-              </div>
-            ) : null}
-
-            <div>
-              <h2
-                onClick={() => visitUser(post.author?._id)}
-                className="hover:underline decoration-[0.5px] cursor-pointer font-roboto font-semibold  w-15"
-              >
-                {capitilizeFirstCharacter(post.author?.username)}
-              </h2>
-            </div>
-            <Link to={`/post/${post.slug}`} className="cursor-pointer">
-              <section className="break-all">
-                <h3 className="md:text-xl font-roboto font-bold pt-2">{post?.title}</h3>
-                <div className="">
-                  <h3>{limitChar(post?.content, paragraphLimit)}</h3>
-                </div>
-                <div className="pr-8">
-                  {post.images?.[0]?.url && (
-                    <img
-                      src={post.images?.[0]?.url}
-                      className="rounded-sm sm:h-50 md:h-100 w-full object-cover"
-                      alt=""
-                    />
+            <div className="flex flex-col mt-1 w-full">
+              <div className="relative">
+                <div className="absolute right-1 -top-10">
+                  {post.author._id === currentLoggedUserId && (
+                    <Dropdown onDelete={() => deletePost(post.slug)} slug={post.slug} />
                   )}
                 </div>
-              </section>
-            </Link>
-            <div className=" flex items-center mt-2 py-1">
-              <div>
-                <HeartIcon
-                  onClick={(e) => handleLike(e, post.slug!)}
-                  className={`cursor-pointer size-6 lg:size-7  stroke-1 hover:fill-red-600 hover:text-white
-													${post.isLiked ? `fill-red-600 ${'text-white'}` : 'fill-white'}`}
-                />
               </div>
+
+              {deleteLoadingState ? (
+                <div className="fixed inset-0 flex items-center justify-center backdrop-blur-none bg-black/5  z-50">
+                  <LoadingOutlined className="text-6xl animate-spin" />
+                </div>
+              ) : null}
+
               <div>
-                {post?.likesCount ? (
-                  <p className="ml-1 font-roboto font-light text-[22px] lg:text-[24px]  ">
-                    {post.likesCount}
-                  </p>
-                ) : (
-                  ''
-                )}
+                <h2
+                  onClick={() => visitUser(post.author?._id)}
+                  className="hover:underline decoration-[0.5px] cursor-pointer font-roboto font-semibold  w-15"
+                >
+                  {capitilizeFirstCharacter(post.author?.username)}
+                </h2>
+              </div>
+              <Link to={`/post/${post.slug}`} className="cursor-pointer">
+                <section className="break-all">
+                  <h3 className="md:text-xl font-roboto font-bold pt-2">{post?.title}</h3>
+                  <div className="">
+                    <h3>{limitChar(post?.content, paragraphLimit)}</h3>
+                  </div>
+                  <div className="pr-8">
+                    {post.images?.[0]?.url && (
+                      <img
+                        src={post.images?.[0]?.url}
+                        className="rounded-sm sm:h-50 md:h-100 w-full object-cover"
+                        alt=""
+                      />
+                    )}
+                  </div>
+                </section>
+              </Link>
+              <div className=" flex items-center mt-2 py-1">
+                <div>
+                  <HeartIcon
+                    onClick={(e) => handleLike(e, post.slug!)}
+                    className={`cursor-pointer size-6 lg:size-7  stroke-1 hover:fill-red-600 hover:text-white
+													${post.isLiked ? `fill-red-600 ${'text-white'}` : 'fill-white'}`}
+                  />
+                </div>
+                <div>
+                  {post?.likesCount ? (
+                    <p className="ml-1 font-roboto font-light text-[22px] lg:text-[24px]  ">
+                      {post.likesCount}
+                    </p>
+                  ) : (
+                    ''
+                  )}
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      ))}
+        ))}
 
-      {getAllPosts.hasNextPage && (
-        <div className="flex justify-center py-8" ref={observerRef}>
-          {showSpinner && <LoadingOutlined />}
-        </div>
-      )}
+        {getAllPosts.hasNextPage && (
+          <div className="flex justify-center py-8" ref={observerRef}>
+            {showSpinner && <LoadingOutlined />}
+          </div>
+        )}
+      </div>
     </div>
   );
 }

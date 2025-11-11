@@ -11,6 +11,7 @@ import {
   defaultImage,
   defaultAboutUser,
 } from '../../utility/utils.ts';
+import Navbar from '../home/Navbar.tsx';
 
 export default function CurrentUserProfile() {
   const { user } = useAuth();
