@@ -15,18 +15,6 @@ export type User = {
   password?: string;
 };
 
-export type RegisterUserData = Pick<User, 'username' | 'email' | 'password'>;
-export type CheckAuth = Pick<User, '_id' | 'username' | 'about' | 'images'>;
-
-export type UpdateUser = {
-  _id?: string;
-  username: string;
-  email?: string;
-  about: string;
-  images: FileList;
-};
-
-//BlogPost
 export type Author = {
   _id?: string;
   username: string;
@@ -44,6 +32,17 @@ export type BlogPost = {
   likesCount?: number;
   isLiked: boolean;
   images: Image[];
+};
+
+export type RegisterUserData = Pick<User, 'username' | 'email' | 'password'>;
+export type CheckAuth = Pick<User, '_id' | 'username' | 'about' | 'images'>;
+
+export type UpdateUser = {
+  _id?: string;
+  username: string;
+  email?: string;
+  about: string;
+  images: FileList;
 };
 
 export type SinglePost = Pick<BlogPost, 'title' | 'content' | 'images'>;
@@ -79,7 +78,7 @@ export type UpdateUserResponse = Pick<User, 'username' | 'about'> & {
 };
 export type VisitUserResponse = {
   user: User;
-  posts: BlogPost;
+  posts: BlogPost[];
 };
 // blogposts api
 export type SearchTitleResponse = {
@@ -112,35 +111,3 @@ export type UpdatePostResponse = {
 export type DeletePostResponse = {
   deletedPost: BlogPost;
 };
-// api response
-// export type BackendResponse<TData = unknown> = {
-//   success: boolean;
-//   error?: string;
-//   message?: string;
-// } & TData;
-//
-//  Blogpost api response
-// export type CreatePostResponse = BackendResponse<{ post: CreateBlog }>;
-// export type PostResponse = BackendResponse<{ post: BlogPost }>;
-// export type PostsResponse = BackendResponse<{
-//   posts: BlogPost[];
-//   pagination: {
-//     currentPage: number;
-//     totalPages: number;
-//     totalPosts: number;
-//     postsPerPage: number;
-//     hasNextPage: boolean;
-//     hasPrevPage: boolean;
-//   };
-// }>;
-// export type UpdatePostResponse = BackendResponse<{ updatedPost: UpdatePost }>;
-// export type GetCurrentLogPostReponse = BackendResponse<{ posts: BlogPost[] }>;
-// export type DeletePostResponse = BackendResponse<{ deletedPost: BlogPost }>;
-// export type SearchTitleResponse = BackendResponse<{ searchTitle: SearchTitle[] }>;
-
-// user api response
-// export type RegisterUserResponse = BackendResponse<{ user: RegisterUserData }>;
-// export type LoginPostResponse = BackendResponse<{ user: User }>;
-// export type CheckAuthRespone = BackendResponse<{ user: User }>;
-// export type VisitUserResponse = BackendResponse<{ user: User; posts: BlogPost[] }>;
-// export type UpdateUserResponse = BackendResponse<{ user: CheckAuth }>;
