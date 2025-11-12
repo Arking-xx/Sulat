@@ -8,7 +8,7 @@ import { useImagePreview } from '../../hooks/useImagePreview.tsx';
 import type { CreateBlog } from '../../types/common.ts';
 import { resizeTextArea } from '../../utility/utils.ts';
 import { writeSchema } from '../../validation/formSchema.ts';
-import Navbar from '../home/Navbar.tsx';
+import Navbar from '../../layout/Navbar.tsx';
 import Button from '../components/ui/Button.tsx';
 
 export default function CreatePost() {

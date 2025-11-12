@@ -1,4 +1,4 @@
-import Navbar from '../home/Navbar';
+import Navbar from '../../layout/Navbar';
 import { CameraIcon } from '@heroicons/react/24/outline';
 import { LoadingOutlined } from '@ant-design/icons';
 import Button from '../components/ui/Button';

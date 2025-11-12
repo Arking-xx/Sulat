@@ -1,7 +1,8 @@
 import Modal from '../components/ui/Modal';
 import { useHideLayout } from '../../hooks/useHideLayout';
 import Footer from '../../layout/Footer';
-import Navbar from './Navbar';
+import Navbar from '../../layout/Navbar';
+
 export default function HomePage() {
   const { hideLayout } = useHideLayout();
   return (

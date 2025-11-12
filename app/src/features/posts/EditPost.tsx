@@ -10,8 +10,8 @@ import { updateSchema } from '../../validation/formSchema';
 import { resizeTextArea } from '../../utility/utils';
 import type { UpdatePost } from '../../types/common';
 import { zodResolver } from '@hookform/resolvers/zod';
-import Navbar from '../home/Navbar';
 import Button from '../components/ui/Button';
+import Navbar from '../../layout/Navbar';
 
 export default function EditPost() {
   const navigate = useNavigate();
