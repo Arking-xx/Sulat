@@ -15,9 +15,6 @@ const Dropdown: FC<DropdownProps> = ({ onDelete, slug }: DropdownProps) => {
       <div className="absolute sm:-right-1 lg:right-4 -bottom-18">
         <DropdownMenu.Root modal={false}>
           <DropdownMenu.Trigger asChild>
-            {/* <button className="cursor-pointer"> */}
-            {/**/}
-            {/* </button> */}
             <Button className="cursor-pointer">
               <HamburgerMenuIcon className="size-6 " />
             </Button>

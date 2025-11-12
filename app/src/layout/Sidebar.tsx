@@ -1,16 +1,15 @@
 import { AnimatePresence, motion } from 'framer-motion';
 import { PencilSquareIcon, UserIcon, HomeIcon } from '@heroicons/react/24/outline';
-import Navbar from '../features/home/Navbar';
 import { Link } from 'react-router-dom';
+import Navbar from './Navbar';
 import { type FC, useState } from 'react';
 import { useHideLayout } from '../hooks/useHideLayout';
 import Notification from '../features/home/Notification';
 import { useLogout } from '../hooks/useUtilityHook';
-import Footer from './Footer';
 
 const Sidebar: FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(true);
-  const { _404, hideElements } = useHideLayout();
+  const { hideElements } = useHideLayout();
   const { handleLogout } = useLogout();
 
   const toggleMenu = () => {

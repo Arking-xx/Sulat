@@ -1,5 +1,5 @@
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useAuth } from '../hooks/auth/useAuth';
 import Button from '../features/components/ui/Button';
 import { useLogout } from '../hooks/useUtilityHook';
@@ -11,7 +11,6 @@ export default function ProfileDropDown() {
   const username = user?.username;
   const capitalizeFirstLetter = (users: string | undefined) => {
     if (!users) return ' ';
-
     return users.charAt(0).toUpperCase() + users.slice(1);
   };
 
