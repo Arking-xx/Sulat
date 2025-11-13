@@ -15,7 +15,6 @@ export const signUpSchema = z.object({
         try {
           return await authApi.checkUsernameAvailibity(username);
         } catch (err) {
-          console.log('Username check failed', err);
           return false;
         }
       },
