@@ -1,19 +1,13 @@
 import { useBlog } from '../../hooks/blogpost/useBlog.tsx';
 import { HeartIcon } from '@heroicons/react/24/outline';
 import { useParams } from 'react-router-dom';
-import { useLikePost } from '../../hooks/likepost/useLikePost.tsx';
 import { capitilizeFirstCharacter } from '../../utility/utils.ts';
+import { useHandleLike } from '../../hooks/useUtilityHook.tsx';
 
 export default function Post() {
   const { slug } = useParams();
   const { singlePost } = useBlog(slug);
-  const { toggleLike } = useLikePost();
-
-  const handleLike = (e: React.MouseEvent<SVGSVGElement>, postSlugs: string) => {
-    e.stopPropagation();
-    e.preventDefault();
-    toggleLike(postSlugs);
-  };
+  const { handleLike } = useHandleLike();
 
   return (
     <div className=" flex items-start justify-center  min-h-screen  mt-26 pl-12 sm:px-12">

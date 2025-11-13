@@ -2,6 +2,7 @@ import { useAuth } from './auth/useAuth';
 import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
+import { useLikePost } from './likepost/useLikePost';
 
 export const useVisitUser = () => {
   const { user } = useAuth();
@@ -58,4 +59,13 @@ export const useLogout = () => {
     }
   };
   return { handleLogout };
+};
+export const useHandleLike = () => {
+  const { toggleLike } = useLikePost();
+  const handleLike = (e: React.MouseEvent<SVGSVGElement>, postSlug: string) => {
+    e.preventDefault();
+    e.stopPropagation();
+    toggleLike(postSlug);
+  };
+  return { handleLike };
 };

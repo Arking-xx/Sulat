@@ -1,7 +1,7 @@
 import { HeartIcon } from '@heroicons/react/24/outline';
 import { useParams } from 'react-router-dom';
-import { useLikePost } from '../../hooks/likepost/useLikePost.tsx';
 import { useUserFind } from '../../hooks/auth/useAuth.tsx';
+import { useHandleLike } from '../../hooks/useUtilityHook.tsx';
 import {
   limitChar,
   capitilizeFirstCharacter,
@@ -13,13 +13,7 @@ import {
 export default function OtherUserProfile() {
   const { id } = useParams();
   const { visitUser } = useUserFind(id!);
-  const { toggleLike } = useLikePost();
-
-  const handleLike = (e: React.MouseEvent<SVGSVGElement>, postSlugs: string) => {
-    e.preventDefault();
-    e.stopPropagation();
-    toggleLike(postSlugs);
-  };
+  const { handleLike } = useHandleLike();
 
   const username = visitUser.data?.user?.username;
   const profileImage = visitUser.data?.user?.images?.[0]?.url || defaultImage;
@@ -78,7 +72,7 @@ export default function OtherUserProfile() {
                     <HeartIcon
                       onClick={(e) => handleLike(e, post.slug!)}
                       className={`cursor-pointer size-6 lg:size-7  stroke-1 hover:fill-red-600 hover:text-white   
-													${post.isLiked ? `fill-red-600 ${'text-white'}` : 'fill-white'}`}
+                ${post.isLiked ? `fill-red-600 ${'text-white'}` : 'fill-white'}`}
                     />
                   </div>
                   <div className="">

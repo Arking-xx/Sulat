@@ -1,20 +1,18 @@
+import Dropdown from '../../layout/Dropdown.tsx';
 import { HeartIcon } from '@heroicons/react/24/outline';
 import { Link, useParams } from 'react-router-dom';
-import { capitilizeFirstCharacter, paragraphLimit, limitChar } from '../../utility/utils.ts';
-import type React from 'react';
 import { LoadingOutlined } from '@ant-design/icons';
-import Dropdown from '../../layout/Dropdown.tsx';
-import { useEffect, useState, useRef, useMemo } from 'react';
 import { useAuth } from '../../hooks/auth/useAuth.tsx';
 import { useBlog } from '../../hooks/blogpost/useBlog.tsx';
-import { useLikePost } from '../../hooks/likepost/useLikePost.tsx';
-import { useVisitUser } from '../../hooks/useUtilityHook.tsx';
+import { useVisitUser, useHandleLike } from '../../hooks/useUtilityHook.tsx';
+import { useEffect, useState, useRef, useMemo } from 'react';
+import { capitilizeFirstCharacter, paragraphLimit, limitChar } from '../../utility/utils.ts';
 
 export default function Feed() {
   const { slug } = useParams();
   const { user } = useAuth();
-  const { toggleLike } = useLikePost();
   const { visitUser } = useVisitUser();
+  const { handleLike } = useHandleLike();
   const { getAllPosts, deletePost, isDeleting: deleteLoadingState } = useBlog(slug);
   const [showSpinner, setShowspinner] = useState(false);
   const observerRef = useRef(null);
@@ -25,12 +23,6 @@ export default function Feed() {
   );
 
   const currentLoggedUserId = user?._id;
-
-  const handleLike = (e: React.MouseEvent<SVGSVGElement>, postSlug: string) => {
-    e.preventDefault();
-    e.stopPropagation();
-    toggleLike(postSlug);
-  };
 
   useEffect(() => {
     if (!getAllPosts.hasNextPage) return;

@@ -1,9 +1,10 @@
 import { Link, useParams } from 'react-router-dom';
 import { useAuth } from '../../hooks/auth/useAuth.tsx';
 import { useBlog } from '../../hooks/blogpost/useBlog.tsx';
-import { useLikePost } from '../../hooks/likepost/useLikePost.tsx';
+import { useHandleLike } from '../../hooks/useUtilityHook.tsx';
 import { HeartIcon } from '@heroicons/react/24/outline';
 import { Pencil1Icon } from '@radix-ui/react-icons';
+import { LoadingOutlined } from '@ant-design/icons';
 import {
   capitilizeFirstCharacter,
   limitChar,
@@ -11,18 +12,15 @@ import {
   defaultImage,
   defaultAboutUser,
 } from '../../utility/utils.ts';
+import Dropdown from '../../layout/Dropdown.tsx';
 
 export default function CurrentUserProfile() {
   const { user } = useAuth();
   const { slug } = useParams();
-  const { currentUserPost } = useBlog(slug);
-  const { toggleLike } = useLikePost();
+  const { currentUserPost, deletePost, isDeleting: deleteLoadingState } = useBlog(slug);
+  const { handleLike } = useHandleLike();
 
-  const handleLike = (e: React.MouseEvent<SVGSVGElement>, postSlugs: string) => {
-    e.preventDefault();
-    e.stopPropagation();
-    toggleLike(postSlugs);
-  };
+  const currentLoggedUserId = user?._id;
 
   const username = user?.username;
   const profileImage = user?.images?.[0]?.url || defaultImage;
@@ -63,11 +61,25 @@ export default function CurrentUserProfile() {
                 <img
                   src={post.author?.images?.[0]?.url}
                   alt=""
-                  className="size-9 object-cover rounded-full"
+                  className="size-9  rounded-full  object-cover"
                 />
               </div>
 
               <div className="flex-1 min-w-0 ">
+                <div className="relative ">
+                  <div className="absolute sm:right-[-16px] md:right-[-16px] lg:right-[-36px] -top-10">
+                    {post.author?._id === currentLoggedUserId && (
+                      <Dropdown onDelete={() => deletePost(post.slug)} slug={post.slug} />
+                    )}
+                  </div>
+                </div>
+
+                {deleteLoadingState ? (
+                  <div className="fixed inset-0 flex items-center justify-center backdrop-blur-none bg-black/5  z-50">
+                    <LoadingOutlined className="text-6xl animate-spin" />
+                  </div>
+                ) : null}
+
                 <h1 className="font-bold">{capitilizeFirstCharacter(post.author?.username)}</h1>
                 <h2 className="font-semibold mt-1 break-words">{post?.title}</h2>
                 <p className="mt-1 break-words">{limitChar(post?.content, paragraphLimit)}</p>
@@ -78,7 +90,7 @@ export default function CurrentUserProfile() {
                       <img
                         src={post.images[0].url}
                         alt=""
-                        className="sm:h-50 md:h-100 w-full rounded-sm"
+                        className="sm:h-50 md:h-100 w-full rounded-sm object-cover"
                       />
                     </div>
                   )}
