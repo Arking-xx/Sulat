@@ -8,29 +8,31 @@ export function useHideLayout() {
     '/signup',
     '/signin',
     '/profile',
-    '/write',
     '/posts',
+    '/write',
     '/profile/updateProfile',
   ];
-
   const path = ['/post/:slug', '/profile/user/:id', '/post/update/:slug'];
-  const excludeFirstElement = routes.slice(1);
+
   const data = path.some((el) => matchPath(`${el}`, location.pathname));
   const validRoutes = routes.includes(location.pathname) || data;
-  console.log('exclude', excludeFirstElement);
+
+  const removeRoute = (route: string[], start: number, end?: number): boolean => {
+    const remove = route.slice(start, end);
+    return remove.includes(location.pathname);
+  };
+
+  console.log(removeRoute(routes, 1));
 
   return {
-    hideLayout: excludeFirstElement.includes(location.pathname) || data,
+    hideLayout: removeRoute(routes, 1) || data,
 
-    hideSidebar: ['/', '/signin', '/signup'].includes(location.pathname) || !validRoutes,
+    hideSidebar: removeRoute(routes, 0, 3) || !validRoutes,
 
-    hideInHomePage: ['/'].includes(location.pathname),
+    hideInHomePage: removeRoute(routes, 0, 1),
 
-    redirect: routes.includes(location.pathname) || data,
+    redirect: removeRoute(routes, 1) || data,
 
-    hideElements:
-      ['/write'].includes(location.pathname) ||
-      ['/profile/updateProfile'].includes(location.pathname) ||
-      matchPath('/post/update/:slug', location.pathname),
+    hideElements: removeRoute(routes, 5) || data,
   };
 }
