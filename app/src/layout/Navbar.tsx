@@ -34,8 +34,6 @@ const Navbar: FC<NavbarProps> = ({ toggleMenu, button, className }: NavbarProps)
     setSearchTerm(event.target.value);
   };
 
-  console.log(redirect);
-
   const scrollTop = () => {
     window.scrollTo({
       top: 0,
@@ -55,8 +53,11 @@ const Navbar: FC<NavbarProps> = ({ toggleMenu, button, className }: NavbarProps)
             )}
           </div>
 
-          <Link onClick={scrollTop} to={redirect ? '/posts' : ''}>
-            <span className="font-semibold text-lg flex items-center  text-text-color">
+          <Link to={redirect ? '/posts' : '/'}>
+            <span
+              onClick={scrollTop}
+              className="font-semibold text-lg flex items-center  text-text-color"
+            >
               <span className="font-semibold font-lora text-3xl ">Sulat</span>
             </span>
           </Link>
