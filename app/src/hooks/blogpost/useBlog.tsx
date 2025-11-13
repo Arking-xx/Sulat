@@ -11,19 +11,18 @@ import type { getAllPostResponse } from '../../types/common';
 export const useBlog = (slug?: string) => {
   const queryClient = useQueryClient();
 
+  // must use when back-end return paginated data
   const getAllPosts = useInfiniteQuery({
     queryKey: ['posts'],
     queryFn: ({ pageParam = 1 }) => blogApi.getAllPost(pageParam, 10),
     getNextPageParam: (lastPage) => {
       if (!lastPage) return undefined;
-      // if (!lastPage.pagination) return undefined;
       return lastPage.hasNextPage ? lastPage.currentPage + 1 : undefined;
     },
     initialPageParam: 1,
     retry: false,
     staleTime: 60_000,
     gcTime: 10 * 60 * 1000,
-    // refetchInterval: 5000,
   });
 
   const { data: singlePost } = useQuery({
@@ -33,11 +32,10 @@ export const useBlog = (slug?: string) => {
     staleTime: 60_000,
     gcTime: 10 * 60 * 100,
     initialData: () => {
+      //find in every pages
       const cachedData = queryClient.getQueryData<InfiniteData<getAllPostResponse>>(['posts']);
       if (!cachedData?.pages) return undefined;
 
-      // const post = cachedData?.posts?.find((post) => post.slug === slug);
-      // return post;
       for (const page of cachedData.pages) {
         const post = page?.posts?.find((post) => post.slug === slug);
         if (post) return post;
@@ -56,7 +54,7 @@ export const useBlog = (slug?: string) => {
   const createBlogMutation = useMutation({
     mutationFn: blogApi.createPost,
     onSuccess: (data) => {
-      console.log('Post created', data);
+      queryClient.setQueryData(['posts'], data);
       queryClient.invalidateQueries({ queryKey: ['posts'] });
     },
   });
@@ -64,8 +62,8 @@ export const useBlog = (slug?: string) => {
   const updatePostMutation = useMutation({
     mutationFn: ({ formdata, slug }: { formdata: FormData; slug: string | undefined }) =>
       blogApi.updatePost(formdata, slug),
-    onSuccess: (data) => {
-      console.log('update post', data);
+    onSuccess: (slug) => {
+      queryClient.setQueryData(['posts', slug], slug);
       queryClient.invalidateQueries({ queryKey: ['posts'] });
     },
   });
