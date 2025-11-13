@@ -10,7 +10,7 @@ export default function HomePage() {
       {!hideLayout && (
         <Navbar
           className={
-            'absolute bg-primary shadow-lg flex items-center justify-between py-3 px-32  top-0 left-0 w-full'
+            'absolute bg-primary shadow-lg flex items-center justify-between py-3 md:px-18   top-0 left-0 w-full'
           }
         />
       )}

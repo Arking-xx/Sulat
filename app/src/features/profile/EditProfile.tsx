@@ -14,7 +14,6 @@ import { type UpdateUserResponse } from '../../types/common';
 import { defaultImage } from '../../utility/utils';
 
 export default function EditProfile() {
-  // default and fallback if user didn't upload or update their user info
   const { user, updateUser, updateUserLoading } = useAuth();
   const navigate = useNavigate();
 
