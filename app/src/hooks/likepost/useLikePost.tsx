@@ -24,11 +24,9 @@ export const useLikePost = () => {
       // saving old data states
       const prevPosts = queryClient.getQueryData<InfiniteData<getAllPostResponse>>(['posts']);
       const prevSinglePost = queryClient.getQueryData<BlogPost>(['posts', slug]);
-
       const prevUserPosts = queryClient.getQueryData<{ ownPost: BlogPost[] }>(['posts', 'me']);
 
-      console.log(prevPosts);
-      // for useInfinite since the array is nested we structured it this way
+      // for useInfinite since its paginated and the data is nested in array, so we structured it this way
       if (prevPosts) {
         queryClient.setQueryData<InfiniteData<getAllPostResponse>>(['posts'], {
           ...prevPosts,
@@ -49,8 +47,6 @@ export const useLikePost = () => {
         });
       }
 
-      //
-      //
       //for current log user
       if (prevUserPosts) {
         queryClient.setQueryData<{ ownPost: BlogPost[] }>(['posts', 'me'], {
@@ -69,6 +65,7 @@ export const useLikePost = () => {
         });
       }
 
+      // when visiting actual post
       if (prevSinglePost) {
         queryClient.setQueryData<BlogPost>(['posts', slug], {
           ...prevSinglePost,
@@ -80,7 +77,7 @@ export const useLikePost = () => {
       }
 
       //
-      //
+      // cache all user
       const userQueries = queryClient.getQueryCache().findAll({ queryKey: ['user'] });
       userQueries.forEach((query) => {
         const userData = query.state.data;
@@ -102,7 +99,7 @@ export const useLikePost = () => {
         }
       });
 
-      // return the previus data, this will pass to onError as a context
+      // return the previus data, this will pass to onError as a snapshot value
       // so that we can restore the old data if the API calls fails
       return { prevPosts, prevSinglePost, prevUserPosts };
     },
@@ -110,7 +107,7 @@ export const useLikePost = () => {
     // to the optimistic update to restore the original state
     onError: (_err, slug, context) => {
       // checking if previous data exist
-      // purpose only rollback if there's data state exist
+      // purpose only rollback if server side mutation fails
       if (context?.prevPosts) {
         queryClient.setQueryData(['posts'], context.prevPosts);
       }
@@ -127,8 +124,8 @@ export const useLikePost = () => {
 
     // runs after the API calls succeed
     // purpose is to replace the optimistic data with real server data
-    onSuccess: (data, slug) => {
-      const updatedPost = data.post; // extract the server data
+    onSettled: (data, slug) => {
+      const updatedPost = data!.post; // extract the server data
 
       queryClient.setQueryData<InfiniteData<getAllPostResponse>>(['posts'], (old) => {
         if (!old?.pages) return old;
