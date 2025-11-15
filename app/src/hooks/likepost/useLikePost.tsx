@@ -22,13 +22,16 @@ export const useLikePost = () => {
       await queryClient.cancelQueries({ queryKey: ['posts', slug] });
 
       // saving old data states
-      const prevPosts = queryClient.getQueryData<InfiniteData<getAllPostResponse>>(['posts']);
+      const prevPosts = queryClient.getQueryData<InfiniteData<getAllPostResponse>>([
+        'posts',
+        'infinite',
+      ]);
       const prevSinglePost = queryClient.getQueryData<BlogPost>(['posts', slug]);
       const prevUserPosts = queryClient.getQueryData<{ ownPost: BlogPost[] }>(['posts', 'me']);
 
       // for useInfinite since its paginated and the data is nested in array, so we structured it this way
       if (prevPosts) {
-        queryClient.setQueryData<InfiniteData<getAllPostResponse>>(['posts'], {
+        queryClient.setQueryData<InfiniteData<getAllPostResponse>>(['posts', 'infinite'], {
           ...prevPosts,
           pages: prevPosts.pages.map((page) => ({
             ...page,
@@ -127,7 +130,7 @@ export const useLikePost = () => {
     onSettled: (data, slug) => {
       const updatedPost = data!.post; // extract the server data
 
-      queryClient.setQueryData<InfiniteData<getAllPostResponse>>(['posts'], (old) => {
+      queryClient.setQueryData<InfiniteData<getAllPostResponse>>(['posts', 'infinite'], (old) => {
         if (!old?.pages) return old;
         return {
           ...old,
