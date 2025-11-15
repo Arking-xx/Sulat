@@ -80,21 +80,23 @@ export default function CurrentUserProfile() {
                   </div>
                 ) : null}
 
-                <h1 className="font-bold">{capitilizeFirstCharacter(post.author?.username)}</h1>
-                <h2 className="font-semibold mt-1 break-words">{post?.title}</h2>
-                <p className="mt-1 break-words">{limitChar(post?.content, paragraphLimit)}</p>
+                <Link to={`/post/${post.slug}`}>
+                  <h1 className="font-bold">{capitilizeFirstCharacter(post.author?.username)}</h1>
+                  <h2 className="font-semibold mt-1 break-words">{post?.title}</h2>
+                  <p className="mt-1 break-words">{limitChar(post?.content, paragraphLimit)}</p>
 
-                <div>
-                  {post?.images?.[0]?.url && (
-                    <div>
-                      <img
-                        src={post.images[0].url}
-                        alt=""
-                        className="sm:h-50 md:h-100 w-full rounded-sm object-cover"
-                      />
-                    </div>
-                  )}
-                </div>
+                  <div>
+                    {post?.images?.[0]?.url && (
+                      <div>
+                        <img
+                          src={post.images[0].url}
+                          alt=""
+                          className="sm:h-50 md:h-100 w-full rounded-sm object-cover"
+                        />
+                      </div>
+                    )}
+                  </div>
+                </Link>
 
                 <div className=" flex items-center mt-2 py-1">
                   <div>

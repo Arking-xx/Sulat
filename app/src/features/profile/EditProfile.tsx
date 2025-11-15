@@ -46,7 +46,6 @@ export default function EditProfile() {
       if (data.username) formData.append('username', data.username);
       if (data.about) formData.append('about', data.about);
       if (data.images && data.images[0]) {
-        console.log('selected file', data.images[0]);
         formData.append('image', data.images[0]);
       } else {
         console.log('no file selected');
