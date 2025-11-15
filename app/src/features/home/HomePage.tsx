@@ -6,15 +6,15 @@ import Navbar from '../../layout/Navbar';
 export default function HomePage() {
   const { hideLayout } = useHideLayout();
   return (
-    <div>
+    <div className="">
       {!hideLayout && (
         <Navbar
           className={
-            'absolute bg-primary shadow-lg flex items-center justify-between py-3 md:px-18   top-0 left-0 w-full'
+            'absolute bg-primary shadow-lg flex items-center justify-between py-3 md:px-18 top-0 left-0 w-full'
           }
         />
       )}
-      <div className=" h-140 min-w-screen  flex sm:justify-center md:justify-start items-center overflow-hidden">
+      <div className=" h-screen   flex sm:justify-center md:justify-start items-center overflow-hidden">
         <div className="flex flex-col gap-5 md:px-24  ">
           <div>
             <h1 className="font-lora sm:text-5xl md:text-8xl text-text-color font-medium ">
