@@ -18,7 +18,6 @@ export const blogApi = {
       const { data } = await axios.post<CreatePostResponse>(`${API_URL}/api/post`, formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
-      console.log(data);
       return data;
     } catch (error) {
       console.log('failed to create post', error);
@@ -41,7 +40,6 @@ export const blogApi = {
   getSinglePost: async (slug: string | null | undefined) => {
     try {
       const { data } = await axios.get<getSinglePostResponse>(`${API_URL}/api/post/${slug}`);
-      console.log('single post', data.post);
       return data.post;
     } catch (error) {
       console.log('failed to fetch post');
@@ -81,7 +79,6 @@ export const blogApi = {
   deletePost: async (slug: string | null) => {
     try {
       const { data } = await axios.delete<DeletePostResponse>(`${API_URL}/api/post/${slug}`);
-      console.log(data.deletedPost);
       return data;
     } catch (error) {
       throw error;
@@ -91,7 +88,6 @@ export const blogApi = {
   searchTitle: async (title: string) => {
     try {
       const { data } = await axios.get<SearchTitleResponse>(`${API_URL}/api/search?title=${title}`);
-      console.log(data);
       return data;
     } catch (error) {
       throw error;
