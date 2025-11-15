@@ -10,6 +10,7 @@ import { resizeTextArea } from '../../utility/utils.ts';
 import { writeSchema } from '../../validation/formSchema.ts';
 import Navbar from '../../layout/Navbar.tsx';
 import Button from '../components/ui/Button.tsx';
+import { useOnsubmit } from '../../hooks/useUtilityHook.tsx';
 
 export default function CreatePost() {
   const {
@@ -23,29 +24,17 @@ export default function CreatePost() {
 
   const { slug } = useParams();
   const { createPost, isCreating } = useBlog(slug);
-  const navigate = useNavigate();
+  const { onSubmit } = useOnsubmit();
 
-  const onSubmit: SubmitHandler<CreateBlog> = async (data) => {
-    try {
-      const formData = new FormData();
-      if (data.title) formData.append('title', data.title);
-      if (data.content) formData.append('content', data.content);
-      if (data.images && data.images[0]) {
-        formData.append('image', data.images[0]);
-      }
-      const response = await createPost(formData);
-      console.log(response.newPost.slug);
-      navigate(`/post/${response.newPost.slug}`);
-    } catch (error) {
-      console.log(error);
-    }
+  const formOnSubmit: SubmitHandler<CreateBlog> = (data) => {
+    return onSubmit(data, createPost);
   };
 
   const { imagePreview, handleChange, handleRemove } = useImagePreview();
 
   return (
-    <div className="mt-25 flex justify-center mx-auto  ">
-      <form onSubmit={handleSubmit(onSubmit)}>
+    <div className="mt-25 flex justify-center mx-auto  h-screen">
+      <form onSubmit={handleSubmit(formOnSubmit)}>
         <div className="flex ">
           <div className="flex flex-col gap-2  px-5 sm:w-80 md:min-w-2xl ">
             <div>

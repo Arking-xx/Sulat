@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useLikePost } from './likepost/useLikePost';
+import { type BlogPost } from '../types/common';
 
 export const useVisitUser = () => {
   const { user } = useAuth();
@@ -68,4 +69,39 @@ export const useHandleLike = () => {
     toggleLike(postSlug);
   };
   return { handleLike };
+};
+
+// creating and updating post
+
+type BaseFormData = Pick<BlogPost, 'title' | 'content'> & {
+  slug?: string;
+  images?: FileList;
+};
+
+export const useOnsubmit = () => {
+  const navigate = useNavigate();
+  const onSubmit = async <T extends BaseFormData>(
+    data: T,
+    api: (formData: FormData) => Promise<any>
+  ) => {
+    try {
+      const formData = new FormData();
+      if (data.title) formData.append('title', data.title);
+      if (data.content) formData.append('content', data.content);
+      if (data.images && data.images[0]) {
+        formData.append('image', data.images[0]);
+      }
+      const response = await api(formData);
+      const slug = (response as any).newPost?.slug || (response as any).updatedPost?.slug;
+
+      if (slug) {
+        navigate(`/post/${slug}`);
+      }
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+  };
+
+  return { onSubmit };
 };

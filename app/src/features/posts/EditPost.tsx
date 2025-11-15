@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { ImageIcon, Cross1Icon } from '@radix-ui/react-icons';
 import { LoadingOutlined } from '@ant-design/icons';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { useForm, type SubmitHandler } from 'react-hook-form';
 import { useBlog } from '../../hooks/blogpost/useBlog';
 import { useImagePreview } from '../../hooks/useImagePreview';
@@ -12,9 +12,10 @@ import type { UpdatePost } from '../../types/common';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Button from '../components/ui/Button';
 import Navbar from '../../layout/Navbar';
+import { useOnsubmit } from '../../hooks/useUtilityHook';
 
 export default function EditPost() {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const { slug } = useParams<{ slug: string }>();
   const { updatePost, isUpdatingPost, singlePost } = useBlog(slug);
 
@@ -48,25 +49,15 @@ export default function EditPost() {
     }
   }, [singlePost, reset]);
 
-  const onSubmit: SubmitHandler<UpdatePost> = async (data) => {
-    try {
-      const formData = new FormData();
-      if (data.title) formData.append('title', data.title);
-      if (data.content) formData.append('content', data.content);
-      if (data.images && data.images[0]) {
-        formData.append('image', data.images[0]);
-      }
-      const response = await updatePost({ formdata: formData, slug });
-      console.log(response);
-      navigate(`/post/${response.updatedPost.slug}`);
-    } catch (error) {
-      console.log(error);
-    }
+  const { onSubmit } = useOnsubmit();
+
+  const updateFormSubmit: SubmitHandler<UpdatePost> = (data) => {
+    return onSubmit(data, (formData) => updatePost({ formdata: formData, slug }));
   };
 
   return (
-    <div className="mt-25 flex justify-center mx-auto  ">
-      <form onSubmit={handleSubmit(onSubmit)}>
+    <div className="mt-25 flex justify-center mx-auto  h-screen">
+      <form onSubmit={handleSubmit(updateFormSubmit)}>
         <div className="flex ">
           <div className="flex flex-col gap-1  px-5 sm:w-80 md:min-w-2xl ">
             <div>
