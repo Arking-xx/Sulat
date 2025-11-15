@@ -3,25 +3,30 @@ import { HeartIcon } from '@heroicons/react/24/outline';
 import { useParams } from 'react-router-dom';
 import { capitilizeFirstCharacter } from '../../utility/utils.ts';
 import { useHandleLike } from '../../hooks/useUtilityHook.tsx';
+import { useVisitUser } from '../../hooks/useUtilityHook.tsx';
 
 export default function Post() {
   const { slug } = useParams();
   const { singlePost } = useBlog(slug);
   const { handleLike } = useHandleLike();
+  const { visitUser } = useVisitUser();
 
   return (
     <div className=" flex items-start justify-center  min-h-screen  mt-26 pl-12 sm:px-12">
       <div className="w-3xl">
         <article className=" flex items-start justify-center gap-4 border-b border-gray-200 sm:pt-5 md:pb-3 lg:pt-5 md:pt-5">
           <div className="flex-1 relative break-all">
-            <div className="flex items-center absolute -top-7  gap-2 sm:shrink-0">
+            <div
+              onClick={() => visitUser(singlePost?.author._id)}
+              className="flex items-center absolute -top-7  gap-2 sm:shrink-0 hover:cursor-pointer"
+            >
               <img
                 src={singlePost?.author?.images?.[0]?.url}
                 alt=""
-                className="rounded-full w-10 h-10 object-cover overflow-hidden hover:border-green-500 hover:border"
+                className="rounded-full w-10 h-10 object-cover overflow-hidden hover:border-gray-400 hover:border"
               />
               <div>
-                <h3 className="font-roboto  font-bold text-text-color  text-[13px]">
+                <h3 className="font-roboto  font-bold text-text-color  text-[13px] hover:underline">
                   {capitilizeFirstCharacter(singlePost?.author?.username)}
                 </h3>
               </div>
