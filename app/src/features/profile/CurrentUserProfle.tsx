@@ -39,7 +39,6 @@ export default function CurrentUserProfile() {
                 {capitilizeFirstCharacter(username)}
 
                 <Link to="/profile/updateProfile" className="text-gray-400  absolute mb-1">
-                  {/* <EditOutlined className="text-2xl" /> */}
                   <Pencil1Icon className="size-7" />
                 </Link>
               </h1>
