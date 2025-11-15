@@ -1,7 +1,7 @@
 import { ImageIcon, Cross1Icon } from '@radix-ui/react-icons';
 import { LoadingOutlined } from '@ant-design/icons';
 import { useForm, type SubmitHandler } from 'react-hook-form';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useBlog } from '../../hooks/blogpost/useBlog.tsx';
 import { useImagePreview } from '../../hooks/useImagePreview.tsx';
