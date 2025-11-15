@@ -1,5 +1,4 @@
 import { useParams } from 'react-router-dom';
-import { useEffect } from 'react';
 
 const Notfound = () => {
   let params = useParams();

@@ -22,7 +22,7 @@ const Navbar: FC<NavbarProps> = ({ toggleMenu, button, className }: NavbarProps)
   const [searchTerm, setSearchTerm] = useState('');
   const debounceSearch = useDebounce(searchTerm, 250);
 
-  const { data, isLoading } = useQuery({
+  const { data } = useQuery({
     queryKey: ['posts', 'search', debounceSearch],
     queryFn: () => blogApi.searchTitle(debounceSearch),
     enabled: !!debounceSearch,

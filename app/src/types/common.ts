@@ -34,9 +34,6 @@ export type BlogPost = {
   images: Image[];
 };
 
-export type RegisterUserData = Pick<User, 'username' | 'email' | 'password'>;
-export type CheckAuth = Pick<User, '_id' | 'username' | 'about' | 'images'>;
-
 export type UpdateUser = {
   _id?: string;
   username: string;
@@ -68,6 +65,8 @@ type PopulateBlogpost = Omit<BlogPost, 'author'> & {
 };
 
 // User api
+export type RegisterUserData = Pick<User, 'username' | 'email' | 'password'>;
+
 export type LoginUserResponse = Pick<User, '_id' | 'username' | 'images'>;
 export type CheckAuthResponse = Pick<User, '_id' | 'username' | 'images' | 'about'>;
 export type RegisterUserResponse = Pick<User, 'username' | 'images'> & {
