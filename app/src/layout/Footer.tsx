@@ -3,7 +3,7 @@ export default function Footer() {
     <div>
       <footer className="fixed bottom-0  left-0 w-screen p-4 bg-primary  shadow-sm md:flex md:items-center md:justify-between md:p-6 overflow-hidden">
         <span className="text-sm text-text-color sm:text-center ">
-          © 2023{' '}
+          © 2025{' '}
           <a href="/sulat" className="hover:underline">
             Sulat
           </a>
