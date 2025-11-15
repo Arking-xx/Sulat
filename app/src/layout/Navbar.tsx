@@ -114,13 +114,10 @@ const Navbar: FC<NavbarProps> = ({ toggleMenu, button, className }: NavbarProps)
         {hideInHomePage && (
           <div className=" flex items-center gap-8 text-text-color sm:hidden md:flex">
             <div className="flex items-center gap-5">
-              <Link to="/" className="py-1 px-3 text-sm font-roboto font-normal">
+              <a href="#about" className="py-1 px-3 text-sm font-roboto font-normal">
                 About
-              </Link>
-              <Link to="/about" className="py-1 px-3 text-sm font-roboto font-normal">
-                Share Story
-              </Link>
-              <div className="py-1 px-3 text-sm font-roboto font-normal">
+              </a>
+              <div className="py-1 px-3 text-sm font-roboto font-normal ">
                 <Modal
                   signgupText="Sign up"
                   signinText="Sign in"
