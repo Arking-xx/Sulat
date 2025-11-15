@@ -1,5 +1,5 @@
 import { HeartIcon } from '@heroicons/react/24/outline';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { useUserFind } from '../../hooks/auth/useAuth.tsx';
 import { useHandleLike } from '../../hooks/useUtilityHook.tsx';
 import {
@@ -45,48 +45,49 @@ export default function OtherUserProfile() {
         {/*                             */}
         {visitUser.data?.posts?.map((post) => (
           <section key={post.slug} className="mb-4 border-b border-b-gray-300 ">
-            <div className="flex gap-3 px-5 py-3 ">
-              <div className="flex-shrink-0">
-                <img
-                  src={post.author?.images?.[0]?.url}
-                  alt=""
-                  className="size-8 rounded-full object-cover"
-                />
-              </div>
-              <div className="flex-1 min-w-0">
-                <h1 className="font-bold ">{capitilizeFirstCharacter(post.author?.username)}</h1>
-                <h2 className="font-semibold mt-1 break-words">{post?.title}</h2>
-                <p className="mt-1 break-words">{limitChar(post?.content, paragraphLimit)}</p>
-
-                <div>
-                  {post?.images?.[0]?.url && (
-                    <div>
-                      <img src={post.images[0].url} alt="" className="w-full rounded-sm" />
-                      {/* <img src={post?.images?.[0]?.url} alt="" /> */}
-                    </div>
-                  )}
+            <Link to={`/post/${post?.slug}`}>
+              <div className="flex gap-3 px-5 py-3 ">
+                <div className="flex-shrink-0">
+                  <img
+                    src={post.author?.images?.[0]?.url}
+                    alt=""
+                    className="size-8 rounded-full object-cover"
+                  />
                 </div>
+                <div className="flex-1 min-w-0">
+                  <h1 className="font-bold ">{capitilizeFirstCharacter(post.author?.username)}</h1>
+                  <h2 className="font-semibold mt-1 break-words">{post?.title}</h2>
+                  <p className="mt-1 break-words">{limitChar(post?.content, paragraphLimit)}</p>
 
-                <div className=" flex items-center mt-2 py-1">
                   <div>
-                    <HeartIcon
-                      onClick={(e) => handleLike(e, post.slug!)}
-                      className={`cursor-pointer size-6 lg:size-7  stroke-1 hover:fill-red-600 hover:text-white   
-                ${post.isLiked ? `fill-red-600 ${'text-white'}` : 'fill-white'}`}
-                    />
-                  </div>
-                  <div className="">
-                    {post?.likesCount ? (
-                      <p className="ml-1 font-roboto font-light text-[22px] lg:text-[24px]  ">
-                        {post.likesCount}
-                      </p>
-                    ) : (
-                      ''
+                    {post?.images?.[0]?.url && (
+                      <div>
+                        <img src={post.images[0].url} alt="" className="w-full rounded-sm" />
+                      </div>
                     )}
                   </div>
+
+                  <div className=" flex items-center mt-2 py-1">
+                    <div>
+                      <HeartIcon
+                        onClick={(e) => handleLike(e, post.slug!)}
+                        className={`cursor-pointer size-6 lg:size-7  stroke-1 hover:fill-red-600 hover:text-white   
+                ${post.isLiked ? `fill-red-600 ${'text-white'}` : 'fill-white'}`}
+                      />
+                    </div>
+                    <div className="">
+                      {post?.likesCount ? (
+                        <p className="ml-1 font-roboto font-light text-[22px] lg:text-[24px]  ">
+                          {post.likesCount}
+                        </p>
+                      ) : (
+                        ''
+                      )}
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div>
+            </Link>
           </section>
         ))}
       </div>
