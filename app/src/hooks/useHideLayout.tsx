@@ -13,7 +13,7 @@ export function useHideLayout() {
     '/profile/updateProfile',
   ];
   const path = ['/post/:slug', '/profile/user/:id', '/post/update/:slug'];
-
+  const el = path.slice(-1);
   const data = path.some((el) => matchPath(`${el}`, location.pathname));
   const validRoutes = routes.includes(location.pathname) || data;
 
@@ -21,8 +21,6 @@ export function useHideLayout() {
     const remove = route.slice(start, end);
     return remove.includes(location.pathname);
   };
-
-  console.log(removeRoute(routes, 1));
 
   return {
     hideLayout: removeRoute(routes, 1) || data,
@@ -33,6 +31,6 @@ export function useHideLayout() {
 
     redirect: removeRoute(routes, 1) || data,
 
-    hideElements: removeRoute(routes, 5) || data,
+    hideElements: removeRoute(routes, 5) || matchPath(`${el}`, location.pathname),
   };
 }

@@ -1,9 +1,7 @@
-import { useHideLayout } from '../hooks/useHideLayout';
 export default function Footer() {
-  const { _404 } = useHideLayout();
   return (
     <div>
-      <footer className="fixed bottom-0  left-0 w-full p-4 bg-primary border-t border-gray-200 shadow-sm md:flex md:items-center md:justify-between md:p-6 overflow-hidden">
+      <footer className="fixed bottom-0  left-0 w-screen p-4 bg-primary  shadow-sm md:flex md:items-center md:justify-between md:p-6 overflow-hidden">
         <span className="text-sm text-text-color sm:text-center ">
           © 2023{' '}
           <a href="/sulat" className="hover:underline">
