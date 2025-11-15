@@ -13,7 +13,7 @@ export const useBlog = (slug?: string) => {
 
   // must use when back-end return paginated data
   const getAllPosts = useInfiniteQuery({
-    queryKey: ['posts'],
+    queryKey: ['posts', 'infinite'],
     queryFn: ({ pageParam = 1 }) => blogApi.getAllPost(pageParam, 10),
     getNextPageParam: (lastPage) => {
       if (!lastPage) return undefined;
