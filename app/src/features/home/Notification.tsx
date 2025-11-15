@@ -14,7 +14,8 @@ type Messages = {
   userName?: string;
 };
 
-const socket = io('http://localhost:3000');
+const API_URL = import.meta.env.VITE_API_URL;
+const socket = io(`${API_URL}`);
 export default function Notification() {
   const [message, setMessage] = useState('');
   const [messages, setMessages] = useState<Messages[]>([]); // for storing messages
