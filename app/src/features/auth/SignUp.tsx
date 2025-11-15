@@ -1,6 +1,6 @@
 import { EyeOutlined, EyeInvisibleOutlined } from '@ant-design/icons';
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useForm, type SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { signUpSchema, type userRegister } from '../../validation/formSchema';
@@ -110,12 +110,12 @@ export default function SignUp() {
 
         <p className="text-center text-sm text-gray-600 mt-4">
           Already have an account?&nbsp;
-          <a
-            href="/signin"
+          <Link
+            to="/signin"
             className="text-blue-600 hover:text-blue-800 font-medium hover:underline"
           >
             Sign in
-          </a>
+          </Link>
         </p>
       </form>
     </div>

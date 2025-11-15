@@ -1,5 +1,6 @@
 import * as Dialog from '@radix-ui/react-dialog';
 import Button from './Button';
+import { Link } from 'react-router-dom';
 
 type Props = {
   title?: string;
@@ -43,9 +44,9 @@ export default function Modal(props: Props) {
           </div>
           <div className="flex justify-center items-center py-6">
             Already have an account?&nbsp;
-            <a href="/signin" className="underline text-text-color">
+            <Link to="/signin" className="underline text-text-color">
               {props.signinText}
-            </a>
+            </Link>
           </div>
         </Dialog.Content>
       </Dialog.Root>
