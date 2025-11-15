@@ -24,8 +24,9 @@ export default function SignUp() {
   const onSubmit: SubmitHandler<userRegister> = async (user) => {
     try {
       const createUser = await registerUser(user);
-      console.log('User created', createUser);
-      navigate('/posts');
+      if (createUser) {
+        navigate('/posts');
+      }
     } catch (err) {
       console.log(err);
     }

@@ -30,7 +30,6 @@ export default function SignIn() {
   const onSubmit = async (data: { username: string; password: string }) => {
     try {
       await login({ username: data.username.toLowerCase(), password: data.password });
-      console.log(data);
       navigate('/posts');
       reset();
     } catch (error: any) {
